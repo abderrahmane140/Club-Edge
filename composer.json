@@ -1,0 +1,15 @@
+{
+    "name": "abderrahamane/clubedge",
+    "autoload": {
+        "psr-4": {
+            "Abderrahamane\\Clubedge\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "abderrahmane140",
+            "email": "bsarabderrahmane01@gmail.com"
+        }
+    ],
+    "require": {}
+}
