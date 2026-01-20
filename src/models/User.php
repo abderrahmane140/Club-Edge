@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Models;
+namespace src\models;
 
 abstract class  User{
 
@@ -29,7 +29,6 @@ abstract class  User{
     public function setName(string $name): string { $this->name = $name; }
     public function setEmail(string $email): string { $this->email = $email; }
     public function setPassword(string $password): string { $this->password = $password; }
-
 
 
 }
