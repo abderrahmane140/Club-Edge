@@ -7,8 +7,8 @@ class Database {
 
     public static function getConnection () : PDO {
         if(self::$instanse == null){
-            $config = require __DIR__ . '/../config/database.php';
-            $dsn = "mysql:host={$config['host']};dbname={$config['database']}";
+            $config = require __DIR__ . '/../../config/database.php';
+            $dsn = "pgsql:host={$config['host']};dbname={$config['database']}";
 
             self::$instanse = new PDO(
                 $dsn,
