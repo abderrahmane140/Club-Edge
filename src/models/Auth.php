@@ -1,6 +1,6 @@
 <?php
-require_once "../src/core/Database.php";
-
+// require_once "../src/core/Database.php";
+require __DIR__ . "/../../src/core/Database.php";
 class Auth{
 
     private $pdo;

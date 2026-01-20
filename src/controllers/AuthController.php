@@ -1,8 +1,12 @@
 <?php
-require_once "../src/models/Auth.php";
+require __DIR__ . "/../models/Auth.php";
 class AuthController{
+
     public function signup(){
         if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+            var_dump($_POST);
+            
             $fullName = $_POST['fullName'];
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -13,6 +17,10 @@ class AuthController{
 
             $newUser->insertInfo($fullName, $email, $hashPassword);
 
+            echo "khdaaaam !!!!";
+            
+        } else {
+            // Handle GET request - show the signup form
             require __DIR__ . "/../views/signup.blade.php";
         }
     }
