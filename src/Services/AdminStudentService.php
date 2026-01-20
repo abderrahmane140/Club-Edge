@@ -19,6 +19,9 @@ class AdminStudentService
 
     public function deleteStd($id)
     {
+        if($id<=0){
+            exit();
+        }
         $this->Userrepo->deleteUser($id);
     }
 }

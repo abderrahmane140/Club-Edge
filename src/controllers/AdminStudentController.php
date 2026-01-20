@@ -26,8 +26,9 @@ class AdminStudentController extends \src\core\Controller
 
 
     //ban a student
-    public function delete($id)
+    public function delete()
     {
+        $id = $_POST['std_id'] ?: null;
         $this->service->deleteStd($id);
        $this->index();
     }
@@ -37,11 +38,10 @@ class AdminStudentController extends \src\core\Controller
 
 
 
-    //update student info
+    //visualise student info
     public function edit($id){
-
-        $this->service->Userrepo->
-
+        view
+        $this->service->Userrepo->modifyStudent($id);
     }
 
 }

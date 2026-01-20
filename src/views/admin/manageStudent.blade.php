@@ -47,9 +47,16 @@
     <div class="pt-8 border-t border-zinc-800">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-[#D9E954] text-black flex items-center justify-center font-bold">A</div>
-            <div>
+            <div class="flex-1">
                 <p class="text-xs font-bold">Admin Principal</p>
-                <p class="text-[10px] text-gray-500">Déconnexion</p>
+                <form action="/logout" method="POST" class="mt-2">
+                    <button
+                            type="submit"
+                            class="w-full bg-white text-black px-4 py-2 rounded-full font-black text-[11px] hover:bg-zinc-200 transition border-2 border-black"
+                    >
+                        <i class="fa-solid fa-right-from-bracket mr-2"></i> Déconnexion
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -76,9 +83,7 @@
                     class="w-full pl-10 pr-4 py-3 rounded-full border-2 border-black bg-white font-semibold outline-none focus:ring-2 focus:ring-black"
                 />
             </div>
-            <button class="bg-black text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-zinc-800 shadow-lg whitespace-nowrap">
-                <i class="fa-solid fa-user-plus text-xs"></i> Nouvel Étudiant
-            </button>
+
         </div>
     </header>
 
@@ -109,7 +114,7 @@
 
             @foreach($data as $user)
               <tr class="border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer"
-                  data-href="/admin/etudiants/show.php?id=<?= $s['id'] ?>">
+                  data-href="/admin/etudiants/spy/<?= $user->getId() ?>">
                 <td class="py-4 px-4">
                   <p class="font-extrabold">{{$user->getName()}}</p>
                   <p class="text-[10px] text-gray-500 italic">{{$user->getRole()}}</p>
@@ -119,12 +124,12 @@
                 </td>
                 <td class="py-4 px-4">
                   <span class="bg-zinc-100 text-black px-3 py-1 rounded-full text-[10px] font-black underline">
-                    #{{$user->getId}}
+                    #{{$user->getId()}}
                   </span>
                 </td>
                 <td class="py-4 px-4 text-right">
-                  <form  method="POST" class="inline" data-no-rowclick>
-                    <input type="hidden" name="id" value="{{$user->getId()}}" />
+                  <form action="/admin/student/delete"  method="POST" class="inline" data-no-rowclick>
+                    <input type="hidden" name="std_id" value="{{$user->getId()}}" />
                     <button type="submit" name="action" value="delete"
                             class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs hover:bg-red-700 transition inline-flex items-center gap-2"
                             data-delete>

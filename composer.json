@@ -12,6 +12,7 @@
         }
     ],
     "require": {
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "jenssegers/blade": "^2.0"
     }
 }
