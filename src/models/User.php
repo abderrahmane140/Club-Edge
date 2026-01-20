@@ -30,7 +30,6 @@ abstract class  User{
     public function setEmail(string $email): string { $this->email = $email; }
     public function setPassword(string $password): string { $this->password = $password; }
 
-
 }
 
 
