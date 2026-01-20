@@ -2,7 +2,7 @@
     "name": "abderrahamane/clubedge",
     "autoload": {
         "psr-4": {
-            "Abderrahamane\\Clubedge\\": "src/"
+            "src\\": "src/"
         }
     },
     "authors": [
