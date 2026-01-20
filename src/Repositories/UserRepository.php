@@ -15,7 +15,7 @@ class UserRepository
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id ");
         $stmt->execute(['id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         return $row ?: null;
     }

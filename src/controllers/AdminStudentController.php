@@ -31,6 +31,7 @@ class AdminStudentController extends \src\core\Controller
         $id = $_POST['std_id'] ?: null;
         $this->service->deleteStd($id);
        $this->index();
+       exit();
     }
 
 
@@ -40,8 +41,18 @@ class AdminStudentController extends \src\core\Controller
 
     //visualise student info
     public function edit($id){
-        view
-        $this->service->Userrepo->modifyStudent($id);
+        if($user = $this->service->getStudent($id)){
+            $data['student']= $user;
+            $this->view('admin/visualiseProfile.blade.php',$data);
+        } else {
+            $this->index();
+        }
+    }
+
+
+    public function update()
+    {
+        if () //method post updati dkxi ( id deja fl form dw )
     }
 
 }

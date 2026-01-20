@@ -24,4 +24,16 @@ class AdminStudentService
         }
         $this->Userrepo->deleteUser($id);
     }
+
+
+    public function getStudent($id)
+    {
+        if(!empty($id) || $id<=0){
+            return null;
+        }
+        $user = $this->Userrepo->findById($id);
+        return new \Src\models\User($user['name'],$user['email'],$user['password'], $user['role'], $user['id']);
+    }
+
+
 }

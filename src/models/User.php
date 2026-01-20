@@ -2,7 +2,7 @@
 
 namespace Src\models;
 
-abstract class  User{
+ class  User{
 
     protected int $id;
     protected string $name;
