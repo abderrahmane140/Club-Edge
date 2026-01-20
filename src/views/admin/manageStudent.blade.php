@@ -1,4 +1,3 @@
-<?php ?>
 
 
 
@@ -107,112 +106,26 @@
 
                 <tbody>
 
-                <!-- ✅ EXEMPLE 3 ROWS (tu vas remplacer par PHP) -->
-                <tr
-                    class="border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer"
-                    data-href="/admin/etudiants/show.php?id=101"
-                >
-                    <td class="py-4 px-4">
-                        <p class="font-extrabold">AMINE ELHAILAA</p>
-                        <p class="text-[10px] text-gray-500 italic">Inscrit • Niveau: L3</p>
-                    </td>
-                    <td class="py-4 px-4 font-medium text-sm text-gray-700">amineelhailaa@gmail.com</td>
-                    <td class="py-4 px-4">
-                <span class="bg-zinc-100 text-black px-3 py-1 rounded-full text-[10px] font-black underline">
-                  #101
-                </span>
-                    </td>
-                    <td class="py-4 px-4 text-right">
-                        <form action="/admin/etudiants/delete.php" method="POST" class="inline" data-no-rowclick>
-                            <input type="hidden" name="id" value="101" />
-                            <button
-                                type="submit"
-                                class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs hover:bg-red-700 transition inline-flex items-center gap-2"
-                                data-delete
-                                title="Supprimer"
-                            >
-                                <i class="fa-solid fa-trash text-[11px]"></i> Supprimer
-                            </button>
-                        </form>
-                    </td>
-                </tr>
 
-                <tr
-                    class="border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer"
-                    data-href="/admin/etudiants/show.php?id=102"
-                >
-                    <td class="py-4 px-4">
-                        <p class="font-extrabold">Sarah Jenkins</p>
-                        <p class="text-[10px] text-gray-500 italic">Actif • Niveau: M1</p>
-                    </td>
-                    <td class="py-4 px-4 font-medium text-sm text-gray-700">sarah.jenkins@example.com</td>
-                    <td class="py-4 px-4">
-                <span class="bg-zinc-100 text-black px-3 py-1 rounded-full text-[10px] font-black underline">
-                  #102
-                </span>
-                    </td>
-                    <td class="py-4 px-4 text-right">
-                        <form action="/admin/etudiants/delete.php" method="POST" class="inline" data-no-rowclick>
-                            <input type="hidden" name="id" value="102" />
-                            <button
-                                type="submit"
-                                class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs hover:bg-red-700 transition inline-flex items-center gap-2"
-                                data-delete
-                            >
-                                <i class="fa-solid fa-trash text-[11px]"></i> Supprimer
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-
-                <tr
-                    class="border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer"
-                    data-href="/admin/etudiants/show.php?id=103"
-                >
-                    <td class="py-4 px-4">
-                        <p class="font-extrabold">John Doe</p>
-                        <p class="text-[10px] text-gray-500 italic">Inactif • Niveau: L2</p>
-                    </td>
-                    <td class="py-4 px-4 font-medium text-sm text-gray-700">john.doe@example.com</td>
-                    <td class="py-4 px-4">
-                <span class="bg-zinc-100 text-black px-3 py-1 rounded-full text-[10px] font-black underline">
-                  #103
-                </span>
-                    </td>
-                    <td class="py-4 px-4 text-right">
-                        <form action="/admin/etudiants/delete.php" method="POST" class="inline" data-no-rowclick>
-                            <input type="hidden" name="id" value="103" />
-                            <button
-                                type="submit"
-                                class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs hover:bg-red-700 transition inline-flex items-center gap-2"
-                                data-delete
-                            >
-                                <i class="fa-solid fa-trash text-[11px]"></i> Supprimer
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-
-                <!-- ✅ VERSION PHP (décommente + adapte tes routes)
-            <?php foreach($students as $s): ?>
+            @foreach($data as $user)
               <tr class="border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer"
                   data-href="/admin/etudiants/show.php?id=<?= $s['id'] ?>">
                 <td class="py-4 px-4">
-                  <p class="font-extrabold"><?= htmlspecialchars($s['name']) ?></p>
-                  <p class="text-[10px] text-gray-500 italic"><?= htmlspecialchars($s['status'] ?? '') ?></p>
+                  <p class="font-extrabold">{{$user->getName()}}</p>
+                  <p class="text-[10px] text-gray-500 italic">{{$user->getRole()}}</p>
                 </td>
                 <td class="py-4 px-4 font-medium text-sm text-gray-700">
-                  <?= htmlspecialchars($s['email']) ?>
+                {{$user->getEmail()}}
                 </td>
                 <td class="py-4 px-4">
                   <span class="bg-zinc-100 text-black px-3 py-1 rounded-full text-[10px] font-black underline">
-                    #<?= htmlspecialchars($s['id']) ?>
+                    #{{$user->getId}}
                   </span>
                 </td>
                 <td class="py-4 px-4 text-right">
-                  <form action="/admin/etudiants/delete.php" method="POST" class="inline" data-no-rowclick>
-                    <input type="hidden" name="id" value="<?= htmlspecialchars($s['id']) ?>" />
-                    <button type="submit"
+                  <form  method="POST" class="inline" data-no-rowclick>
+                    <input type="hidden" name="id" value="{{$user->getId()}}" />
+                    <button type="submit" name="action" value="delete"
                             class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs hover:bg-red-700 transition inline-flex items-center gap-2"
                             data-delete>
                       <i class="fa-solid fa-trash text-[11px]"></i> Supprimer
@@ -220,8 +133,7 @@
                   </form>
                 </td>
               </tr>
-            <?php endforeach; ?>
-            -->
+            @endforeach
 
                 </tbody>
             </table>

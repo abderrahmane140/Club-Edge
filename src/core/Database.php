@@ -1,5 +1,5 @@
 <?php
-
+namespace Src\core;
 class Database {
     private static ?PDO $instance = null;
 
