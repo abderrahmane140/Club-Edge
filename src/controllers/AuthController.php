@@ -20,8 +20,7 @@ class AuthController{
             echo "khdaaaam !!!!";
             
         } else {
-            // Handle GET request - show the signup form
-            require __DIR__ . "/../views/signup.blade.php";
+            require __DIR__ . "/../views/auth/signup.blade.php";
         }
     }
 }
