@@ -1,5 +1,8 @@
 <?php
 
+
+namespace Src\core;
+
 abstract class Controller {
 
     protected function view(string $view, array $data = []) : void{

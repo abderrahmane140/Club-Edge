@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Models;
+namespace Src\models;
 
 abstract class  User{
 
@@ -33,8 +33,3 @@ abstract class  User{
 
 
 }
-
-
-
-
-?>
