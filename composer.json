@@ -1,15 +1,13 @@
 {
-    "name": "abderrahamane/clubedge",
+    "name": "your-name/club-edge",
+    "description": "Club Edge Application",
+    "type": "project",
     "autoload": {
         "psr-4": {
-            "Abderrahamane\\Clubedge\\": "src/"
+            "Src\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "abderrahmane140",
-            "email": "bsarabderrahmane01@gmail.com"
-        }
-    ],
-    "require": {}
+    "require": {
+        "php": ">=7.4"
+    }
 }
