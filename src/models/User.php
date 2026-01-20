@@ -25,10 +25,10 @@ abstract class  User{
     public function getRole(): string { return $this->role; }
 
 
-    public function setId(int $id): int { $this->id = $id; }
-    public function setName(string $name): string { $this->name = $name; }
-    public function setEmail(string $email): string { $this->email = $email; }
-    public function setPassword(string $password): string { $this->password = $password; }
+    public function setId(int $id) { $this->id = $id; }
+    public function setName(string $name) { $this->name = $name; }
+    public function setEmail(string $email) { $this->email = $email; }
+    public function setPassword(string $password) { $this->password = $password; }
 
 
 
