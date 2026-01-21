@@ -28,4 +28,12 @@ class Database {
 
         return self::$instance;
     }
+
+    public function query(string $sql, array $params = []) {
+        $connection = self::getConnection();
+        $stmt = $connection->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
 }
+
