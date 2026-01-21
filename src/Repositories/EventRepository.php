@@ -109,4 +109,26 @@ class EventRepository
         $stmt->execute(['id' => $id]);
         return $stmt->fetchAll();
     }
-}
+
+
+    public function getUsersByEvent(int $eventId): array
+        {
+            $sql = "
+                SELECT 
+                    u.id,
+                    u.name,
+                    u.email,
+                    u.role,
+                    ep.participated,
+                    ep.registered_at
+                FROM event_participants ep
+                JOIN users u ON u.id = ep.student_id
+                WHERE ep.event_id = :event_id
+            ";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['event_id' => $eventId]);
+
+            return $stmt->fetchAll();
+        }
+    }
