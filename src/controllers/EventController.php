@@ -90,5 +90,11 @@ class EventController extends Controller
         $this->redirect('events');
         exit;
     }
+
+
+    public function getEventByClub(int $id){
+        $event = $this->repository->getEventByClub((int)$id);
+        $this->view('events',$event);
+    }
 }
 

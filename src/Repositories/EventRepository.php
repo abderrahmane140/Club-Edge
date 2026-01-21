@@ -103,4 +103,10 @@ class EventRepository
         $stmt = $this->db->prepare("DELETE FROM events WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public function getEventByClub(int $id){
+        $stmt = $this->db->prepare("SELECT * FROM events WHERE club_id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll();
+    }
 }
