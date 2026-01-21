@@ -3,7 +3,9 @@
 class Database {
     private static ?PDO $instanse = null;
 
-    private function __construct(){}
+    private function __construct(){
+
+    }
 
     public static function getConnection () : PDO {
         if(self::$instanse == null){
@@ -24,4 +26,12 @@ class Database {
 
         return self::$instanse;
     }
+
+    public function query(string $sql, array $params = []) {
+        $connection = self::getConnection();
+        $stmt = $connection->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
 }
+

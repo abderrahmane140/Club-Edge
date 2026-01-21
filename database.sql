@@ -13,6 +13,7 @@ CREATE TABLE users (
 );
 
 
+
 CREATE TABLE clubs (
     id SERIAL PRIMARY KEY,
     name VARCHAR(150) UNIQUE NOT NULL,
@@ -78,17 +79,6 @@ CREATE TABLE reviews (
 );
 
 
-CREATE TABLE reviews (
-    id SERIAL PRIMARY KEY,
-    event_id INT NOT NULL,
-    student_id INT NOT NULL,
-    rating INT CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_review_event FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    CONSTRAINT fk_review_student FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE (event_id, student_id)
-);
 
 
 CREATE TABLE articles (
