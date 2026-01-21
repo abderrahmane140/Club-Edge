@@ -37,12 +37,12 @@ class AdminstudentService
     }
 
 
-    public function updateStudent($data)
+    public function updateStudent(User $User)
     {
-        if(!isset($data['name'])){
+        if($User->getName() == null){
             die('name is not set');
         }
-        $this->Userrepo->updateName($data['name']);
+        $this->Userrepo->updateName($User->getName());
     }
 
 

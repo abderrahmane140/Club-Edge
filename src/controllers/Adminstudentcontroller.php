@@ -44,7 +44,7 @@ class Adminstudentcontroller extends \Src\core\Controller
     public function edit($id){
         if($user = $this->service->getStudent($id)){
             $data['student']= $user;
-            $this->view('admin/visualiseProfile.blade.php',$data);
+            $this->view('admin/visualiseProfile',$data);// blade here
         } else {
             $this->index();
         }
@@ -57,9 +57,9 @@ class Adminstudentcontroller extends \Src\core\Controller
         // ?? means if first value is null intialise with empty array .
         $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? [];
         $User = new User($_POST['name'],$_POST['email'],$_POST['password'],$_POST['role'],$_POST['id']);
-        $this->service->updateStudent($_POST);
+        $this->service->updateStudent($User);
         $data['student']=$User;
-        $this->view('admin/visualiseProfile.blade.php',$data);
+        $this->view('admin/visualiseProfile',$data); //blade here
     }
 
 }

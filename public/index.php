@@ -10,3 +10,4 @@ $router->get('/', 'ClubController@index');
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();
+
