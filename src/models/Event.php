@@ -1,7 +1,7 @@
 <?php
 
 
-namespace src\models;
+namespace Src\models;
 
 
 class Event
