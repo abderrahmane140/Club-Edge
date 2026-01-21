@@ -17,6 +17,16 @@ $router->get('/events/edit/{id}', 'EventController@edit');
 $router->post('/events/update/{id}', 'EventController@update');
 $router->post('/events/delete/{id}', 'EventController@delete');
 
+$router->get('/clubs/{id}/events', 'EventController@getEventByClub');
+$router->get('/events/{id}/users', 'EventController@getUsersByEvent');
+
+
+//articles
+$router->get('/articles', 'ArticleController@index');
+$router->post('/articles', 'ArticleController@store');
+
+
+
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();
