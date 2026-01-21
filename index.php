@@ -8,7 +8,15 @@ require_once __DIR__ . '/src/core/Router.php';
 $router = new Router();
 
 /* ROUTES */
-$router->get('/', 'ClubController@index');
+$router->get('/', 'ClubController@index');  
+$router->get('/events', 'EventController@index');
+$router->get('/events/show/{id}', 'EventController@show');
+$router->get('/events/create', 'EventController@create');
+$router->post('/events/store', 'EventController@store');
+$router->get('/events/edit/{id}', 'EventController@edit');
+$router->post('/events/update/{id}', 'EventController@update');
+$router->post('/events/delete/{id}', 'EventController@delete');
+
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();
