@@ -11,3 +11,5 @@ if (file_exists($envFile)) {
         $_ENV[trim($key)] = trim($value);
     }
 }
+
+echo "oihoiwv";

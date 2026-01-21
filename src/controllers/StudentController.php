@@ -27,24 +27,26 @@ class StudentController extends Controller {
         $this->eventService      = new EventService();
     }
 
-    //  Tableau de bord étudiant
-    public function dashboard()
-    {
+    //  Dashbord D'Etudiant 
+
+    public function dashboard() {
+        
         return $this->render('student/dashboard');
     }
 
     //  Clubs
 
     // Liste des clubs
-    public function listClubs()
-    {
+
+    public function listClubs() {
+
         $clubs = $this->clubRepository->getAll();
         return $this->render('student/clubs/index', compact('clubs'));
     }
 
     // Détails d’un club
-    public function showClub(int $clubId)
-    {
+    public function showClub(int $clubId){
+
         $club = $this->clubRepository->findById($clubId);
         if (!$club) {
             return $this->redirect('/404');
@@ -53,8 +55,9 @@ class StudentController extends Controller {
     }
 
     // S’inscrire à un club
-    public function joinClub(int $clubId)
-    {
+
+    public function joinClub(int $clubId){
+
         $studentId = $_SESSION['user_id'];
         try {
             $this->clubService->joinClub($studentId, $clubId);
@@ -64,5 +67,57 @@ class StudentController extends Controller {
         }
     }
 
+
+    //  Événements
+
+    // Liste des événements d’un club
+
+    public function listEvents(int $clubId) {
+
+        $events = $this->eventRepository->getByClub($clubId);
+        return $this->render('student/events/index', compact('events'));
+    }
+
+    // Inscription à un événement
+
+    public function registerEvent(int $eventId){
+
+        $studentId = $_SESSION['user_id'];
+        try {
+            $this->eventService->registerStudent($studentId, $eventId);
+            return $this->redirect('/student/dashboard');
+        } catch (\Exception $e) {
+            return $this->render('errors/error', ['message' => $e->getMessage()]);
+        }
+    }
+
+    // Laisser un avis et une note
+
+    public function leaveReview(int $eventId) {
+
+        $studentId = $_SESSION['user_id'];
+        $rating    = $_POST['rating'] ?? null;
+        $comment   = $_POST['comment'] ?? '';
+
+        if (!$rating) {
+            return $this->render('errors/error', ['message' => 'Veuillez donner une note']);
+        }
+
+        try {
+            $this->reviewRepository->create($eventId, $studentId, $rating, $comment);
+            return $this->redirect('/student/dashboard');
+        } catch (\Exception $e) {
+            return $this->render('errors/error', ['message' => $e->getMessage()]);
+        }
+    }
+
+     //  Articles
+
+    // Liste des articles d’un club
+    public function listArticles(int $clubId){
+        
+        $articles = $this->articleRepository->getByClub($clubId);
+        return $this->render('student/articles/index', compact('articles'));
+    }
     
 }
