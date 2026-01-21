@@ -91,3 +91,4 @@ class EventController extends Controller
         exit;
     }
 }
+

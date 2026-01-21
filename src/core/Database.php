@@ -3,6 +3,7 @@ namespace Src\core;
 
 use PDO;
 use PDOException;
+
 class Database {
     private static ?PDO $instance = null;
 
