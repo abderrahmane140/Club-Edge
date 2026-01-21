@@ -38,15 +38,11 @@ class UserRepository
         return $stmt->execute();
     }
 
-    public function modifyStudent(User $user)
+    public function updateName($name)
     {
-        $query = "update users set name=:name, email=:email, password=:password, role=:role where id=:id ";
+        $query = " update users set name=:name ";
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindValue(':name',$user->getName());
-        $stmt->bindValue(':email',$user->getEmail());
-        $stmt->bindValue(':password',$user->getPassword());
-        $stmt->bindValue(':role',$user->getRole());
-        $stmt->bindValue(':id',$user->getId());
+        $stmt->bindValue(':name',$name);
         $stmt->execute();
     }
 

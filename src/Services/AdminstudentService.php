@@ -1,8 +1,9 @@
 <?php
 
 namespace Src\Services;
+use Src\models\User;
 
-class AdminStudentService
+class AdminstudentService
 {
     public $Userrepo;
     public function __construct()
@@ -33,6 +34,15 @@ class AdminStudentService
         }
         $user = $this->Userrepo->findById($id);
         return new \Src\models\User($user['name'],$user['email'],$user['password'], $user['role'], $user['id']);
+    }
+
+
+    public function updateStudent($data)
+    {
+        if(!isset($data['name'])){
+            die('name is not set');
+        }
+        $this->Userrepo->updateName($data['name']);
     }
 
 

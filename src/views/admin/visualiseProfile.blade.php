@@ -91,8 +91,8 @@
                 </div>
                 <div>
                     <p class="text-xs font-black text-gray-400 uppercase">Étudiant</p>
-                    <p class="text-2xl font-extrabold" id="studentTitle">John Doe</p>
-                    <p class="text-[11px] text-gray-500 font-semibold italic">ID: <span id="studentIdLabel">#101</span></p>
+                    <p class="text-2xl font-extrabold" id="studentTitle">{{$data['student']->getName() }}</p>
+                    <p class="text-[11px] text-gray-500 font-semibold italic">ID: <span id="studentIdLabel">#{{$data['student']->getId() }}</span></p>
                 </div>
             </div>
 
@@ -111,14 +111,14 @@
         <!-- FORM (MVC) -->
         <form action="/admin/etudiants/update" method="POST" id="profileForm">
             <!-- id hidden for backend -->
-            <input type="hidden" name="id" value="101" id="studentIdHidden"/>
+            <input type="hidden" name="id" value="{{$data['student']->getId() }}" id="studentIdHidden"/>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- ID (readonly always) -->
                 <div class="admin-card bg-white p-6">
                     <label class="block text-xs font-black uppercase text-gray-400 mb-2">ID</label>
                     <input
-                            value="101"
+                            value="{{$data['student']->getId() }}"
                             class="w-full bg-gray-50 border-2 border-black rounded-2xl px-4 py-3 font-extrabold outline-none"
                             readonly
                     />
@@ -129,7 +129,7 @@
                     <label class="block text-xs font-black uppercase text-gray-400 mb-2">Name</label>
                     <input
                             name="name"
-                            value="John Doe"
+                            value="{{$data['student']->getName()}}"
                             class="profile-input w-full bg-white border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-black"
                             readonly
                             data-can-edit="true"
@@ -142,7 +142,7 @@
                     <label class="block text-xs font-black uppercase text-gray-400 mb-2">Email</label>
                     <input
                             name="email"
-                            value="john.doe@example.com"
+                            value="{{$data['student']->getEmail() }}"
                             class="w-full bg-gray-50 border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none"
                             readonly
                             data-always-locked="true"
@@ -177,7 +177,7 @@
                             data-can-edit="true"
                             id="roleSelect"
                     >
-                        <option value="student" selected>student</option>
+                        <option value="{{$data['student']->getRole() }}" selected>{{$data['student']->getRole() }}</option>
 
                     </select>
                     <p class="text-[10px] text-gray-400 font-semibold italic mt-2">

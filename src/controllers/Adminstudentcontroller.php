@@ -1,15 +1,16 @@
 <?php
 
-namespace  Src\controllers;
-use Src\Services\AdminStudentService;
-
-class AdminStudentController extends \src\core\Controller
+namespace Src\controllers;
+use Src\models\User;
+use Src\Services\AdminstudentService;
+class Adminstudentcontroller extends \Src\core\Controller
 {
     private $service;
 
     public function __construct()
+
     {
-        $this->service= new AdminStudentService();
+        $this->service= new AdminstudentService();
     }
 
 
@@ -52,7 +53,13 @@ class AdminStudentController extends \src\core\Controller
 
     public function update()
     {
-        if () //method post updati dkxi ( id deja fl form dw )
+        //SANITIZE POST DATA or empty
+        // ?? means if first value is null intialise with empty array .
+        $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? [];
+        $User = new User($_POST['name'],$_POST['email'],$_POST['password'],$_POST['role'],$_POST['id']);
+        $this->service->updateStudent($_POST);
+        $data['student']=$User;
+        $this->view('admin/visualiseProfile.blade.php',$data);
     }
 
 }
