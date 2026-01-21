@@ -1,26 +1,33 @@
 <?php
-require __DIR__ . "/../models/Auth.php";
-class AuthController{
+// app/Controllers/AuthController.php
 
-    public function signup(){
+require_once __DIR__ . '/../../src/repositories/UserRepository.php';
+use Src\core\Controller;
+class AuthController extends Controller
+{
+    public function register()
+    {
+        // require __DIR__ . "/../views/auth/signup.blade.php";
+        $this->view('signup.blade');
+        // $instance = new Src\core\Controller;
         if($_SERVER['REQUEST_METHOD'] == "POST"){
-
-            var_dump($_POST);
-            
-            $fullName = $_POST['fullName'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $newUser = new Auth();
-
-            $newUser->insertInfo($fullName, $email, $hashPassword);
-
-            echo "khdaaaam !!!!";
-            
-        } else {
-            require __DIR__ . "/../views/auth/signup.blade.php";
+            $name     = $_POST['fullName'] ?? null;
+            $email    = $_POST['email'] ?? null;
+            $password = $_POST['password'] ?? null;
+            $role = "student";
+    
+            if (!isset($name) || !$email || !$password) {
+                die('Tous les champs sont obligatoires');
+            }
+    
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    
+            $repo = new UserRepository();
+            $repo->create($name, $email, $hashedPassword, $role);
         }
+
+
+        // header('Location: /');
+        // exit;
     }
 }

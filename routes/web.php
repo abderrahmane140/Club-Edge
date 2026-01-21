@@ -1,27 +1,18 @@
 <?php
-require __DIR__ . "/../src/controllers/AuthController.php";
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-$routes = [
-    '/' => ['AuthController', 'signup'],
-    '/signup' => ['AuthController', 'signup'],
-];
+require_once __DIR__ . '/../src/core/Router.php';
+require_once __DIR__ . '/../app/controllers/AuthController.php';
 
-$path = rtrim($path, '/');
-if ($path === '') $path = '/';
+$router = new Router();
 
-if (isset($routes[$path])) {
-    [$controller, $method] = $routes[$path];
+$router->get('/', function() {
+    require __DIR__ . '/../resources/views/home.blade.php';
+});
 
-    $controllerObj = new $controller();
+$router->get('/register', function() {
+    require __DIR__ . '/../resources/views/signup.blade.php';
+});
 
-    if (method_exists($controllerObj, $method)) {
-        $controllerObj->$method();
-    } else {
-        http_response_code(500);
-        echo "Method not found.";
-    }
-} else {
-    http_response_code(404);
-    echo "Page not found.";
-}
+$router->post('/register', 'AuthController@register');
+
+return $router;

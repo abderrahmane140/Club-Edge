@@ -1,25 +1,24 @@
 <?php
-
 class UserRepository
 {
     private PDO $pdo;
 
-    public function __construct(PDO $pdo)
+    public function __construct()
     {
-        $this->pdo = $pdo;
+        $this->pdo = \Database::getConnection();
     }
 
-    public function create($user): int
+    public function create($name, $email, $password, $role): int
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO users (name, email, password_hash, role)
-            VALUES (:name, :email, :password_hash, :role)
+            INSERT INTO users (name, email, password)
+            VALUES (:name, :email, :password, :role)
         ");
         $stmt->execute([
-            'name' => $user->name,
-            'email' => $user->email,
-            'password_hash' => $user->password_hash,
-            'role' => $user->role,
+            'name' => $name,
+            'email' => $email,
+            'password_hash' => $password,
+            'role' => $role,
         ]);
 
         return (int) $stmt->fetchColumn();
