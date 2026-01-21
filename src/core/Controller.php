@@ -1,7 +1,9 @@
 <?php
 
+
 namespace Src\core;
-class Controller {
+
+abstract class Controller {
 
     protected function view(string $view, array $data = []) : void{
         extract($data);

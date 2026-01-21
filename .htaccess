@@ -1,5 +1,11 @@
 RewriteEngine On
 
+<<<<<<< HEAD
 Redirect all requests to /public
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(.*)$ public/$1 [L]
+=======
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+>>>>>>> d39e67857717221e00cc103a2d47939e42272cd9

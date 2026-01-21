@@ -29,5 +29,6 @@ abstract class  User{
     public function setEmail(string $email) { $this->email = $email; }
     public function setPassword(string $password) { $this->password = $password; }
 
+
+
 }
-?>

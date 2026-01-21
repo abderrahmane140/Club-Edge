@@ -1,8 +1,8 @@
 <?php
 
-namespace src\controllers;
+namespace  Src\controllers;
 
-class AdminStudentController
+class AdminStudentController extends \src\core\Controller
 {
 
 
