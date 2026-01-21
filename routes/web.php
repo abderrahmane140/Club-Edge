@@ -6,11 +6,11 @@ require_once __DIR__ . '/../app/controllers/AuthController.php';
 $router = new Router();
 
 $router->get('/', function() {
-    require __DIR__ . '/../resources/views/home.blade.php';
+    require __DIR__ . '/../src/views/home/home.blade.php';
 });
 
 $router->get('/register', function() {
-    require __DIR__ . '/../resources/views/signup.blade.php';
+    require __DIR__ . '/../src/views/auth/signup.blade.php';
 });
 
 $router->post('/register', 'AuthController@register');

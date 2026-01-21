@@ -38,7 +38,7 @@
 <body class="text-gray-900 min-h-screen flex flex-col">
 
     <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full">
-        <a href="" class="flex items-center font-bold hover:underline">
+        <a href="/" class="flex items-center font-bold hover:underline">
             <i class="fa-solid fa-arrow-left mr-2"></i> Retour aux clubs
         </a>
         <div class="text-xl font-extrabold uppercase italic">
@@ -88,7 +88,7 @@
             <div class="md:w-3/5 p-10 md:p-16 bg-white">
                 <h2 class="text-2xl font-black mb-8 uppercase tracking-tight">Formulaire d'adhésion</h2>
 
-                <form action="/login" method="POST" class="space-y-6">
+                <form action="" method="POST" class="space-y-6">
                     <div class="space-y-2">
                         <label class="text-xs font-black uppercase ml-1">Nom complet</label>
                         <input type="text" name="fullName" placeholder="John Doe" class="input-brutal">

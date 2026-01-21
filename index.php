@@ -11,6 +11,10 @@ $router = new Router();
 $router->get('/', 'ClubController@index');
 $router->get('/register', 'AuthController@register');
 $router->post('/register', 'AuthController@register');
+$router->get('/login', 'AuthController@login');
+$router->post('/login', 'AuthController@login');
+$router->get('/club', 'ClubController@index');
+$router->post('/club', 'ClubController@index');
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();
