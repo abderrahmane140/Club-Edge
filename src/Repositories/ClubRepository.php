@@ -1,6 +1,5 @@
 <?php
 use Src\core\Database;
-use PDO;
 
 class ClubRepository {
     private PDO $pdo;

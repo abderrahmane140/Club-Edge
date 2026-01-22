@@ -10,7 +10,7 @@ class Database {
 
     public static function getConnection(): PDO {
         if (self::$instance === null) {
-            $config = require __DIR__ . '/../Config/database.php';
+            $config = require __DIR__ . '/../../config/database.php';
 
             $dsn = "pgsql:host={$config['host']};port={$config['port']};dbname={$config['database']}";
 
