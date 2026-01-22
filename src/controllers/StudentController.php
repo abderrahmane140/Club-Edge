@@ -2,13 +2,14 @@
 
 namespace Src\Controllers;
 
-use src\Repositories\ClubRepository;
-use src\Repositories\EventRepository;
-use src\Repositories\ReviewRepository;
-use src\Repositories\ArticleRepository;
+use Src\Repositories\ClubRepository;
+use Src\Repositories\EventRepository;
+use Src\Repositories\ReviewRepository;
+use Src\Repositories\ArticleRepository;
+use Src\Services\ClubService;
+use Src\Services\EventService;
 
-
-class StudentController extends Controller {
+class StudentController extends Controller{
 
     private ClubRepository $clubRepository;
     private EventRepository $eventRepository;
@@ -27,97 +28,111 @@ class StudentController extends Controller {
         $this->eventService      = new EventService();
     }
 
-    //  Dashbord D'Etudiant 
-
-    public function dashboard() {
-        
-        return $this->render('student/dashboard');
+    // Dashboard étudiant
+    public function dashboard()
+    {
+        return $this->view('');
     }
 
-    //  Clubs
-
     // Liste des clubs
-
-    public function listClubs() {
-
+    public function listClubs()
+    {
         $clubs = $this->clubRepository->getAll();
-        return $this->render('student/clubs/index', compact('clubs'));
+        return $this->view('club/club.blade', compact('clubs'));
     }
 
     // Détails d’un club
-    public function showClub(int $clubId){
 
-        $club = $this->clubRepository->findById($clubId);
+    public function showClub(int $clubId)
+    {
+        $club = $this->clubRepository->getById($clubId);
+
         if (!$club) {
             return $this->redirect('/404');
         }
-        return $this->render('student/clubs/show', compact('club'));
+
+        return $this->view('club/detailsClub.blade', compact('club'));
     }
 
     // S’inscrire à un club
 
-    public function joinClub(int $clubId){
-
+    public function joinClub(int $clubId)
+    {
         $studentId = $_SESSION['user_id'];
+
         try {
             $this->clubService->joinClub($studentId, $clubId);
-            return $this->redirect('/student/dashboard');
+
+            return $this->redirect('/club/myClub.blade');
+
         } catch (\Exception $e) {
-            return $this->render('errors/error', ['message' => $e->getMessage()]);
+            return $this->view('errors/error', ['message' => $e->getMessage()]);
         }
     }
 
 
-    //  Événements
-
     // Liste des événements d’un club
-
-    public function listEvents(int $clubId) {
+    public function listEvents(int $clubId){
 
         $events = $this->eventRepository->getByClub($clubId);
-        return $this->render('student/events/index', compact('events'));
+        return $this->view('club/myClub.blade', compact('events'));
     }
 
     // Inscription à un événement
-
-    public function registerEvent(int $eventId){
-
+    public function registerEvent(int $eventId)
+    {
         $studentId = $_SESSION['user_id'];
+
         try {
             $this->eventService->registerStudent($studentId, $eventId);
-            return $this->redirect('/student/dashboard');
+            return $this->redirect('club/myClub.blade');
+
         } catch (\Exception $e) {
-            return $this->render('errors/error', ['message' => $e->getMessage()]);
+            return $this->view('errors/error', ['message' => $e->getMessage()]);
         }
     }
 
-    // Laisser un avis et une note
-
-    public function leaveReview(int $eventId) {
-
+    // Laisser un avis
+    public function leaveReview(int $eventId)
+    {
         $studentId = $_SESSION['user_id'];
         $rating    = $_POST['rating'] ?? null;
         $comment   = $_POST['comment'] ?? '';
 
         if (!$rating) {
-            return $this->render('errors/error', ['message' => 'Veuillez donner une note']);
+            return $this->view('errors/error', [
+                'message' => 'Veuillez donner une note'
+            ]);
         }
 
         try {
-            $this->reviewRepository->create($eventId, $studentId, $rating, $comment);
-            return $this->redirect('/student/dashboard');
+            $this->reviewRepository->createReview(
+                $eventId,
+                $studentId,
+                $rating,
+                $comment
+            );
+
+            return $this->redirect('events/events.blade');
+
         } catch (\Exception $e) {
-            return $this->render('errors/error', ['message' => $e->getMessage()]);
+            return $this->view('errors/error', ['message' => $e->getMessage()]);
         }
     }
 
-     //  Articles
-
     // Liste des articles d’un club
-    public function listArticles(int $clubId){
-        
+    public function listArticles(int $clubId)
+    {
         $articles = $this->articleRepository->getByClub($clubId);
-        return $this->render('student/articles/index', compact('articles'));
+        return $this->view('club/myClub.blade', compact('articles'));
     }
-    
+
+    // Les Events d'un Club
+    public function getByClub(int $clubId): array
+    {
+        
+    }
+
+   
 }
+
