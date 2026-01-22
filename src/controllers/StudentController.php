@@ -118,11 +118,11 @@ class StudentController extends Controller{
         } catch (\Exception $e) {
             return $this->view('errors/error', ['message' => $e->getMessage()]);
         }
-    }
+    } 
 
     // Liste des articles d’un club
-    public function listArticles(int $clubId)
-    {
+    public function listArticles(int $clubId) {
+        
         $articles = $this->articleRepository->getByClub($clubId);
         return $this->view('club/myClub.blade', compact('articles'));
     }
