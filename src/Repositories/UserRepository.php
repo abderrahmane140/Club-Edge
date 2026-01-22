@@ -7,9 +7,6 @@ class UserRepository
 
     public function __construct()
     {
-        // Database::getConnection();
-        // $instance = new Src\core\Database;
-        // $instance->getConnection();
         $this->pdo = Database::getConnection();
     }
 

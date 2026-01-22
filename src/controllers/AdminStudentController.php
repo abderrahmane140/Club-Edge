@@ -1,7 +1,6 @@
 <?php
 
 namespace  Src\controllers;
-
 class AdminStudentController extends \src\core\Controller
 {
 
@@ -9,8 +8,7 @@ class AdminStudentController extends \src\core\Controller
     //afficher la liste des etudiants
     public function index()
     {
-
-
+        $this->view('admin/manageStudent');
     }
 
 

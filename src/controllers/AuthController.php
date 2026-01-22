@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function register()
     {
         // require __DIR__ . "/../views/auth/signup.blade.php";
-        $this->view('auth', 'signup.blade');
+        $this->view('auth/signup.blade');
         // $instance = new Src\core\Controller;
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // var_dump($_POST);
@@ -35,38 +35,53 @@ class AuthController extends Controller
     }
 
     public function login()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === "GET") {
-            $this->view('auth', 'login.blade');
-            return;
-        }
+{
+    if ($_SERVER['REQUEST_METHOD'] === "GET") {
+        $this->view('auth/login.blade');
+        return;
+    }
 
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-        if (empty($email) || empty($password)) {
-            die("Tous les champs sont obligatoires");
-        }
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-        $repo = new UserRepository();
-        $user = $repo->findByEmail($email);
+    if ($email === '' || $password === '') {
+        die("Tous les champs sont obligatoires");
+    }
 
-        if (!$user) {
-            die("Compte introuvable ❌");
-        }
+    $repo = new UserRepository();
+    $user = $repo->findByEmail($email);
 
-        if (!password_verify($password, $user['password'])) {
-            die("Mot de passe incorrect ❌");
-        }
+    if (!$user) {
+        die("Compte introuvable");
+    }
 
-        $_SESSION['user'] = [
-            'id'    => $user['id'],
-            'name'  => $user['nom'] ?? $user['name'] ?? '',
-            'email' => $user['email'],
-            'role'  => $user['role']
-        ];
+    if (!password_verify($password, $user['password'])) {
+        die("Mot de passe incorrect");
+    }
 
+    $_SESSION['user'] = [
+        'id'    => $user['id'],
+        'name'  => $user['nom'] ?? $user['name'] ?? '',
+        'email' => $user['email'],
+        'role'  => $user['role']
+    ];
+
+    $role = strtolower(trim($user['role'] ?? ''));
+
+    if ($role === "student") {
         header("Location: /club");
         exit;
+    } elseif ($role === "admin") {
+        header("Location: /admin");
+        exit;
     }
+
+    header("Location: /");
+    exit;
+}
+
 }

@@ -13,8 +13,10 @@ $router->get('/register', 'AuthController@register');
 $router->post('/register', 'AuthController@register');
 $router->get('/login', 'AuthController@login');
 $router->post('/login', 'AuthController@login');
-$router->get('/club', 'ClubController@index');
-$router->post('/club', 'ClubController@index');
+$router->get('/club', 'ClubController@club');
+$router->post('/club', 'ClubController@club');
+$router->get('/admin', 'AdminController@index');
+$router->post('/admin', 'AdminStudentController@index');
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();

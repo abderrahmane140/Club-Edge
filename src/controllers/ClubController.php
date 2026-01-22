@@ -6,4 +6,8 @@ class ClubController {
         // Load the home view
         require_once __DIR__ . '/../views/home/home.blade.php';
     }
+
+    public function club() {
+        require_once __DIR__ . '/../views/club/club.blade.php';
+    }
 }
