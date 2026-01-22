@@ -1,113 +1,111 @@
 <?php
 
 class ClubService {
-    private $clubRepository;
+
+    private ClubRepository $clubRepository;
 
     public function __construct(ClubRepository $clubRepository) {
         $this->clubRepository = $clubRepository;
     }
 
-   
-    public function getAllClubs() {
-        try {
-            return $this->clubRepository->getAll();
-        } catch (Exception $e) {
-            throw new Exception("Error fetching clubs: " . $e->getMessage());
+    public function getAllClubs(): array {
+        return $this->clubRepository->getAll();
+    }
+
+    public function getClubById(int $id): array {
+        if ($id <= 0) {
+            throw new Exception("Club ID is required");
+        }
+
+        $club = $this->clubRepository->getById($id);
+
+        if (!$club) {
+            throw new Exception("Club not found");
+        }
+
+        return $club;
+
+        
+    
+    }
+
+    public function createClub(
+        string $name,
+        ?string $description = null,
+        ?int $president_id = null
+    ): void {
+        $this->validateName($name);
+
+        if (!$this->clubRepository->create($name, $description, $president_id)) {
+            throw new Exception("Failed to create club");
         }
     }
 
-  
-    public function getClubById($id) {
-        try {
-            if (empty($id)) {
-                throw new Exception("Club ID is required");
-            }
-            return $this->clubRepository->getById($id);
-        } catch (Exception $e) {
-            throw new Exception("Error fetching club: " . $e->getMessage());
+    public function updateClub(
+        int $id,
+        string $name,
+        ?string $description = null,
+        ?int $president_id = null
+    ): void {
+        if ($id <= 0) {
+            throw new Exception("Club ID is required");
+        }
+
+        $this->validateName($name);
+
+        if (!$this->clubRepository->getById($id)) {
+            throw new Exception("Club not found");
+        }
+
+        if (!$this->clubRepository->update($id, $name, $description, $president_id)) {
+            throw new Exception("Failed to update club");
         }
     }
 
- 
-    public function createClub($name, $description = null, $president_id = null) {
-        try {
-            if (empty($name)) {
-                throw new Exception("Club name is required");
-            }
+    public function deleteClub(int $id): void {
+        if ($id <= 0) {
+            throw new Exception("Club ID is required");
+        }
 
-           
-            if (strlen($name) > 150) {
-                throw new Exception("Club name must not exceed 150 characters");
-            }
+        if (!$this->clubRepository->getById($id)) {
+            throw new Exception("Club not found");
+        }
 
-            return $this->clubRepository->create($name, $description, $president_id);
-        } catch (Exception $e) {
-            throw new Exception("Error creating club: " . $e->getMessage());
+        if (!$this->clubRepository->delete($id)) {
+            throw new Exception("Failed to delete club");
         }
     }
 
-   
-    public function updateClub($id, $name, $description = null, $president_id = null) {
-        try {
-            if (empty($id)) {
-                throw new Exception("Club ID is required");
-            }
-
-            if (empty($name)) {
-                throw new Exception("Club name is required");
-            }
-
-            if (strlen($name) > 150) {
-                throw new Exception("Club name must not exceed 150 characters");
-            }
-
-          
-            $club = $this->clubRepository->getById($id);
-            if (!$club) {
-                throw new Exception("Club not found");
-            }
-
-            return $this->clubRepository->update($id, $name, $description, $president_id);
-        } catch (Exception $e) {
-            throw new Exception("Error updating club: " . $e->getMessage());
-        }
+    public function countClubs(): int {
+        return count($this->clubRepository->getAll());
     }
 
-   
-    public function deleteClub($id) {
-        try {
-            if (empty($id)) {
-                throw new Exception("Club ID is required");
-            }
+    /*  private helper */
 
-            $club = $this->clubRepository->getById($id);
-            if (!$club) {
-                throw new Exception("Club not found");
-            }
-
-            return $this->clubRepository->delete($id);
-        } catch (Exception $e) {
-            throw new Exception("Error deleting club: " . $e->getMessage());
+    private function validateName(string $name): void {
+        if (trim($name) === '') {
+            throw new Exception("Club name is required");
         }
-    }
 
-   
-    public function clubExists($id) {
-        try {
-            $club = $this->clubRepository->getById($id);
-            return $club !== null && !empty($club);
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-   
-    public function countClubs() {
-        try {
-            $clubs = $this->clubRepository->getAll();
-            return count($clubs) ?? 0;
-        } catch (Exception $e) {
-            throw new Exception("Error counting clubs: " . $e->getMessage());
+        if (mb_strlen($name) > 150) {
+            throw new Exception("Club name must not exceed 150 characters");
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

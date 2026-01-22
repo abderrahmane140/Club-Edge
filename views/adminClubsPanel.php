@@ -1,5 +1,5 @@
 <?php
-// Fetch clubs from backend
+
 $clubs = [];
 $clubCount = 0;
 $totalStudents = 0;
@@ -17,6 +17,7 @@ try {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | ClubHub</title>
@@ -184,6 +185,7 @@ try {
             </div>
         </div>
     </main>
+    
 
    
     <div id="clubModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -194,6 +196,7 @@ try {
             </div>
             
             <form id="clubForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="clubId" name="id">
                 <div class="mb-4">
                     <label class="block text-xs font-black uppercase text-gray-600 mb-2">Nom du Club</label>
                     <input type="text" id="clubName" name="name" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black outline-none" placeholder="Ex: Tech Club">
@@ -218,79 +221,93 @@ try {
     </div>
 
     <script>
-        function openAddClubModal() {
-            document.getElementById('clubModal').classList.remove('hidden');
-            document.getElementById('clubForm').reset();
-        }
+      function openAddClubModal() {
+    document.getElementById('clubModal').classList.remove('hidden');
+    document.getElementById('clubForm').reset();
+    document.getElementById('clubId').value = '';
+}
 
-        function closeModal() {
-            document.getElementById('clubModal').classList.add('hidden');
-        }
+function closeModal() {
+    document.getElementById('clubModal').classList.add('hidden');
+}
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            const formData = new FormData(document.getElementById('clubForm'));
-            
-           
-            const params = new URLSearchParams(formData);
-            fetch('/club/create', {
-                method: 'POST',
-                body: params
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Club créé avec succès!');
-                    closeModal();
-                    location.reload();
-                } else {
-                    alert('Erreur: ' + data.message);
-                }
-            })
-            .catch(error => alert('Erreur: ' + error.message));
-        }
+function handleFormSubmit(event) {
+    event.preventDefault();
 
-        function editClub(id) {
-            fetch(`/club?id=${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('clubName').value = data.data.name;
-                        document.getElementById('clubDescription').value = data.data.description || '';
-                        document.getElementById('clubPresident').value = data.data.president_id || '';
-                      
-                        openAddClubModal();
-                    } else {
-                        alert('Erreur: ' + data.message);
-                    }
-                });
-        }
+    const form = document.getElementById('clubForm');
+    const formData = new FormData(form);
+    const id = document.getElementById('clubId').value;
 
-        function deleteClub(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce club?')) {
-                fetch('/club/delete', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'id=' + id
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Club supprimé avec succès!');
-                        location.reload();
-                    } else {
-                        alert('Erreur: ' + data.message);
-                    }
-                });
-            }
-        }
+    const url = id ? '/club/edit' : '/club/create';
 
-  
-        document.getElementById('clubModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
+    fetch(url, {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            closeModal();
+            location.reload();
+        } else {
+            alert('Erreur: ' + data.message);
+        }
+    })
+    .catch(err => alert('Erreur: ' + err.message));
+}
+
+function editClub(id) {
+    fetch(`/club/current?id=${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('clubId').value = data.data.id;
+                document.getElementById('clubName').value = data.data.name;
+                document.getElementById('clubDescription').value = data.data.description || '';
+                document.getElementById('clubPresident').value = data.data.president_id || '';
+                openAddClubModal();
+            } else {
+                alert(data.message);
             }
         });
+}
+
+function deleteClub(id) {
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce club ?')) return;
+
+    fetch('/club/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id=' + id
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);  
+            location.reload();
+        } else {
+            alert(data.message);
+        }
+    });
+}
+
+document.getElementById('clubModal').addEventListener('click', function (e) {
+    if (e.target === this)
+    {
+        closeModal();
+    }
+});
+
     </script>
 </body>
+
+
+
+
 </html>
+
+
+
+
+

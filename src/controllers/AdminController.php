@@ -59,16 +59,12 @@ class AdminController extends Controller {
             $name = $_POST['name'];
             $description = $_POST['description'] ?? null;
             $president_id = $_POST['president_id'] ?? null;
-
             $this->clubService->updateClub($clubId, $name, $description, $president_id);
-
             return json_encode(['success' => true, 'message' => 'Club updated successfully']);
         } catch (Exception $e) {
             return json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
     }
-
-
     public function createClub() {
         try {
             if (!isset($_POST['name'])) {
@@ -87,7 +83,6 @@ class AdminController extends Controller {
         }
     }
 
- 
     public function getAllClubs() {
         try {
             $clubs = $this->clubService->getAllClubs();
@@ -97,3 +92,8 @@ class AdminController extends Controller {
         }
     }
 }
+
+
+
+
+  
