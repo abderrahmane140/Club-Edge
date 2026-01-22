@@ -8,12 +8,16 @@ require_once __DIR__ . '/../models/Club.php';
 use Src\core\Controller;
 
 use Src\core\Database;
+use Src\Services\AdminstudentService;
+use Src\models\User;
 
 class AdminController extends Controller {
     private $clubService;
+    private $service;
 
     public function __construct() {
         $database = Database::getConnection();
+        $this->service = new AdminstudentService();
         $this->clubService = new ClubService(new ClubRepository($database));
     }
 
@@ -102,6 +106,35 @@ class AdminController extends Controller {
     }
 
     public function index(){
-        $this->view('admin/manageStudent');
+        $data = $this->service->getStudents();
+        $this->view('admin/manageStudent',$data);
     }
+
+    public function delete()
+    {
+        $id = $_POST['std_id'] ?: null;
+        $this->service->deleteStd($id);
+        $this->index();
+       exit();
+    }
+
+      //visualise student info
+    public function edit($id){
+        if($user = $this->service->getStudent($id)){
+            $data['student']= $user;
+            $this->view('admin/visualiseProfile',$data);// blade here
+        } 
+    }
+
+    public function update()
+    {
+        //SANITIZE POST DATA or empty
+        // ?? means if first value is null intialise with empty array .
+        $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? [];
+        $User = new User($_POST['name'],$_POST['email'],$_POST['password'],$_POST['role'],$_POST['id']);
+        $this->service->updateStudent($User);
+        $data['student']=$User;
+        $this->view('admin/visualiseProfile',$data); //blade here
+    }
+
 }

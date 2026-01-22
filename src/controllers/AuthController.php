@@ -2,8 +2,9 @@
 // app/Controllers/AuthController.php
 
 require_once __DIR__ . '/../Repositories/UserRepository.php';
-
+                                                                                        
 use Src\core\Controller;
+use Src\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
@@ -25,8 +26,7 @@ class AuthController extends Controller
 
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            $repo = new UserRepository();
-            $repo->create($name, $email, $hashedPassword, $role);
+            (new UserRepository())->create($name, $email, $hashedPassword, $role);
         }
 
 

@@ -11,5 +11,9 @@
             "email": "bsarabderrahmane01@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-pdo": "*",
+        "jenssegers/blade": "^2.0",
+        "eftec/bladeone": "^4.19"
+    }
 }

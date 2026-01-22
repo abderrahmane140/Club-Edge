@@ -29,7 +29,6 @@ public function dispatch() {
 
             [$controller, $methodName] = explode('@', $action);
             require_once __DIR__ . "/../controllers/$controller.php";
-
             $controllerInstance = new $controller;
             $controllerInstance->$methodName(...$matches);
             return;

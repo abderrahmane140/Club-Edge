@@ -1,6 +1,9 @@
 <?php
 
+namespace Src\Repositories;
 use Src\core\Database;
+use Src\models\User;
+use PDO;
 
 class UserRepository
 {
@@ -45,4 +48,32 @@ class UserRepository
 
         return $row ?: null;
     }
+
+
+    public function getAllStudents()
+    {
+        $query = "select * from users where role != 'admin' ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
+    public function deleteUser($id): bool
+    {
+        $query = 'delete from users where id = :id';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id',$id);
+        return $stmt->execute();
+    }
+
+    public function updateName($name)
+    {
+        $query = " update users set name=:name ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':name',$name);
+        $stmt->execute();
+    }
+
+
 }
