@@ -16,7 +16,7 @@ $router->post('/login', 'AuthController@login');
 $router->get('/club', 'ClubController@club');
 $router->post('/club', 'ClubController@club');
 $router->get('/admin', 'AdminController@index');
-$router->post('/admin', 'AdminStudentController@index');
+$router->post('/admin', 'AdminController@index');
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();
