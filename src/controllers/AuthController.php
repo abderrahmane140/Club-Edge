@@ -1,7 +1,7 @@
 <?php
 // app/Controllers/AuthController.php
 
-require_once __DIR__ . '/../../src/repositories/UserRepository.php';
+require_once __DIR__ . '/../Repositories/UserRepository.php';
 
 use Src\core\Controller;
 

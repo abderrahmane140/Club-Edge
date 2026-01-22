@@ -1,6 +1,7 @@
 <?php
 
 use Src\core\Database;
+
 class UserRepository
 {
     private PDO $pdo;
