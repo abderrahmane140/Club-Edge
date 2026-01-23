@@ -131,7 +131,7 @@ class AdminController extends Controller {
         //SANITIZE POST DATA or empty
         // ?? means if first value is null intialise with empty array .
         $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? [];
-        $User = new User($_POST['name'],$_POST['email'],$_POST['password'],$_POST['role'],$_POST['id']);
+        $User = new User($_POST['name'],$_POST['email'],$_POST['password'] ?? "",$_POST['role'],$_POST['id']);
         $this->service->updateStudent($User);
         $data['student']=$User;
         $this->view('admin/visualiseProfile',$data); //blade here

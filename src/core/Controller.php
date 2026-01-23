@@ -16,7 +16,7 @@ abstract class Controller {
 
 
     protected function redirect(string $url){
-        header("Location: {$url}");
+        header("Location: /ClubEdge/{$url}");
         exit;
     }
 }

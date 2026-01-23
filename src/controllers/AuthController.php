@@ -73,14 +73,15 @@ class AuthController extends Controller
     $role = strtolower(trim($user['role'] ?? ''));
 
     if ($role === "student") {
-        header("Location: /club");
+        $this->redirect("club");
         exit;
     } elseif ($role === "admin") {
-        header("Location: /admin");
+        $this->redirect("admin");
         exit;
     }
 
-    header("Location: /");
+
+    $this->redirect("");
     exit;
 }
 

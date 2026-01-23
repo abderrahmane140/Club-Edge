@@ -130,14 +130,16 @@
     </td>
 
     <td class="py-4 px-4 text-right">
-        <form action="/ClubEdge/admin/delete" method="POST" class="inline" data-no-rowclick>
+        <form action="/ClubEdge/admin/delete" method="POST"
+              class="inline" data-no-rowclick data-delete-form>
             <input type="hidden" name="std_id" value="<?= $user->id ?>" />
             <button type="submit"
-                class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs">
+                    class="px-4 py-2 rounded-full border-2 border-black bg-red-600 text-white font-black text-xs">
                 <i class="fa-solid fa-trash"></i> Supprimer
             </button>
         </form>
     </td>
+
 </tr>
 <?php endforeach; ?>
 

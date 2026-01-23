@@ -1,5 +1,12 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+
+
 require_once __DIR__ .  '/src/core/Database.php';
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/core/Router.php';
@@ -34,7 +41,7 @@ $router->post('/club', 'ClubController@club');
 $router->post('/admin/delete', 'AdminController@delete');
 $router->get('/admin', 'AdminController@index');
 $router->get('/admin/etudiants/{id}', 'AdminController@edit');
-$router->post('/admin/etudiants/{id}', 'AdminController@edit');
+$router->post('/admin/etudiants/{id}', 'AdminController@update');
 
 
 

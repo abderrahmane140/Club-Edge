@@ -65,7 +65,7 @@
     <header class="flex flex-col md:flex-row md:justify-between md:items-end gap-6 mb-12">
         <div>
             <div class="flex items-center gap-3 mb-2">
-                <a href="/admin/etudiants" class="text-sm font-black text-gray-500 hover:text-black transition">
+                <a href="/ClubEdge/admin" class="text-sm font-black text-gray-500 hover:text-black transition">
                     <i class="fa-solid fa-arrow-left mr-2"></i> Retour
                 </a>
             </div>
@@ -99,13 +99,15 @@
             <!-- Edit/Save button -->
             <button
                     id="editBtn"
-                    type="submit"
+                    type="button"
+                    form="profileForm"
                     class="admin-card bg-white px-6 py-3 font-black text-xs uppercase inline-flex items-center gap-2"
                     aria-pressed="false"
             >
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span id="editBtnLabel">Edit</span>
             </button>
+
         </div>
 
         <!-- FORM (MVC) -->
@@ -185,77 +187,66 @@
     const hintText = document.getElementById("hintText");
     const form = document.getElementById("profileForm");
 
-    // Select all editable fields
     const editableFields = Array.from(document.querySelectorAll('[data-can-edit="true"]'));
 
     let isEditing = false;
 
     function setEditing(state) {
         isEditing = state;
-
-        // Update aria-pressed for accessibility
         editBtn.setAttribute("aria-pressed", String(isEditing));
 
-        // Toggle readonly/disabled for editable fields
         editableFields.forEach((el) => {
             const tag = el.tagName.toLowerCase();
             if (tag === "select") {
-                if (isEditing) el.removeAttribute("disabled");
-                else el.setAttribute("disabled", "disabled");
+                el.disabled = !isEditing;
             } else {
-                if (isEditing) el.removeAttribute("readonly");
-                else el.setAttribute("readonly", "readonly");
+                el.readOnly = !isEditing;
             }
         });
 
         if (isEditing) {
-            // Switch button to Save
             editBtnLabel.textContent = "Save";
             hintText.textContent = "Make changes, then click Save.";
 
-            // Clicking button should now submit the form
-            editBtn.setAttribute("type", "submit");
-
-            // Focus the first editable input
             setTimeout(() => {
                 document.getElementById("nameInput")?.focus();
             }, 0);
         } else {
-            // Switch button back to Edit
             editBtnLabel.textContent = "Edit";
             hintText.textContent = "Click Edit to unlock fields.";
-            editBtn.setAttribute("type", "button");
         }
     }
 
-    // Handle Edit/Save button click
     editBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
         if (!isEditing) {
-            // Unlock fields without submitting
-            e.preventDefault();
             setEditing(true);
-        } 
-        // If editing, let form submit naturally (do not preventDefault)
+            return;
+        }
+
+        // We are in "Save" mode:
+        // Ensure select is enabled right now (safety)
+        editableFields.forEach((el) => {
+            if (el.tagName.toLowerCase() === "select") el.disabled = false;
+        });
+
+        // Submit the form reliably (works even if button is outside form)
+        if (form.requestSubmit) form.requestSubmit();
+        else form.submit(); // fallback
     });
 
-    // Optional: lock fields immediately after submit for UX
-    form.addEventListener("submit", () => {
-        setEditing(false);
-    });
-
-    // Update header name in real-time while editing
+    // Live update header name while typing
     const nameInput = document.getElementById("nameInput");
     const studentTitle = document.getElementById("studentTitle");
-
     nameInput?.addEventListener("input", (e) => {
-        if (studentTitle) {
-            studentTitle.textContent = e.target.value || "—";
-        }
+        if (studentTitle) studentTitle.textContent = e.target.value || "—";
     });
 
-    // Start with fields locked
+    // Start locked
     setEditing(false);
 </script>
+
 
 
 </body>
