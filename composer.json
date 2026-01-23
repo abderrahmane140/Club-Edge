@@ -11,5 +11,10 @@
             "email": "bsarabderrahmane01@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "jenssegers/blade": "^2.0",
+        "illuminate/view": "^11.47",
+        "illuminate/filesystem": "^11.47",
+        "illuminate/events": "^11.47"
+    }
 }

@@ -38,7 +38,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
             
             <div class="lg:col-span-1">
-                <div class="bg-white brutal-card rounded-[2.5rem] p-8 h-[750px] flex flex-col">
+                <div class="bg-white brutal-card rounded-[2.5rem] p-8 h-[570px] flex flex-col">
                     <h2 class="text-xl font-black mb-6 uppercase flex items-center justify-between">
                         Membres <span class="text-sm bg-gray-100 px-3 py-1 rounded-full">42</span>
                     </h2>
@@ -98,37 +98,6 @@
                             PUBLIER L'ÉVÉNEMENT <i class="fa-solid fa-paper-plane ml-2"></i>
                         </button>
                     </form>
-                </div>
-
-                <div class="bg-white brutal-card rounded-[2.5rem] p-8 md:p-10 border-t-8 border-t-black">
-                    <h2 class="text-2xl font-black mb-6 uppercase flex items-center gap-3">
-                        <i class="fa-solid fa-newspaper text-white bg-black p-2 rounded-lg text-sm"></i>
-                        Rédiger un Article
-                    </h2>
-                    
-                    <div class="space-y-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase ml-1 text-gray-400">Sujet de l'article</label>
-                            <input type="text" placeholder="Résumé du dernier workshop..." class="brutal-input font-bold italic">
-                        </div>
-                        
-                        <div class="border-2 border-black rounded-2xl overflow-hidden">
-                            <div class="bg-gray-100 p-2 border-b-2 border-black flex gap-4">
-                                <button class="p-1 hover:bg-white rounded"><i class="fa-solid fa-bold text-xs"></i></button>
-                                <button class="p-1 hover:bg-white rounded"><i class="fa-solid fa-italic text-xs"></i></button>
-                                <button class="p-1 hover:bg-white rounded"><i class="fa-solid fa-link text-xs"></i></button>
-                                <button class="p-1 hover:bg-white rounded"><i class="fa-solid fa-image text-xs"></i></button>
-                            </div>
-                            <textarea rows="6" class="w-full p-4 outline-none resize-none" placeholder="Racontez ce qui s'est passé..."></textarea>
-                        </div>
-
-                        <div class="flex justify-between items-center">
-                            <p class="text-[10px] font-bold text-gray-400 italic">* L'article sera visible par tous les étudiants.</p>
-                            <button class="bg-[#D9E954] text-black px-10 py-3 rounded-full font-black border-2 border-black hover:shadow-[4px_4px_0px_black] transition transform hover:-translate-y-1">
-                                POSTER L'ARTICLE
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
             </div>

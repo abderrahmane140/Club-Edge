@@ -53,30 +53,32 @@
     <main class="max-w-7xl mx-auto px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             
-            <div class="bg-white border-2 border-black rounded-[2.5rem] p-2 card-shadow transition hover:-translate-y-1">
+<?php foreach ($data as $club): ?>            <div class="bg-white border-2 border-black rounded-[2.5rem] p-2 card-shadow transition hover:-translate-y-1">
                 <div class="bg-zinc-900 rounded-[2rem] h-48 mb-4 flex items-center justify-center relative overflow-hidden">
                     <i class="fa-solid fa-pen-nib text-6xl text-white opacity-20"></i>
                     <span class="absolute top-4 right-4 bg-[#D9E954] text-black text-[10px] font-black px-3 py-1 rounded-full uppercase">Best Club</span>
                 </div>
                 <div class="px-4 pb-6">
                     <div class="flex justify-between items-start mb-2">
-                        <h2 class="text-2xl font-extrabold">Creative Studio</h2>
-                        <span class="text-xs font-bold text-gray-400 italic">Depuis 2024</span>
+                        <h2 class="text-2xl font-extrabold"><?= $club['name'] ?></h2>
+                        <span class="text-xs font-bold text-gray-400 italic"><?= date('Y-m-d', strtotime($club['created_at'])) ?></span>
                     </div>
-                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">Maîtrisez Figma, Photoshop et le design moderne avec des projets réels.</p>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2"><?= $club['description']?></p>
                     
                     <div class="flex items-center justify-between border-t border-gray-100 pt-4">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-users text-gray-400"></i>
                             <span class="text-sm font-bold">0/8 <span class="text-gray-400 font-medium text-xs">membres</span></span>
                         </div>
-                        <button class="bg-black text-white px-5 py-2 rounded-full font-bold text-xs flex items-center group">
-                            S'inscrire <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
-                        </button>
+                        <a href="/detailsClub?idClub=<?= $club['id'] ?>">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-bold text-xs flex items-center group">
+                                S'inscrire <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
-
+        <?php endforeach; ?>
             <!-- <div class="bg-white border-2 border-black rounded-[2.5rem] p-2 card-shadow transition hover:-translate-y-1">
                 <div class="bg-indigo-600 rounded-[2rem] h-48 mb-4 flex items-center justify-center relative overflow-hidden text-white">
                     <i class="fa-solid fa-gamepad text-6xl opacity-30"></i>

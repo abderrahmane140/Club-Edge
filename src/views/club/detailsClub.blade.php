@@ -33,7 +33,7 @@
                     <div class="flex justify-between items-start mb-6">
                         <h1 class="text-5xl font-black uppercase leading-tight">Creative <br><span class="text-[#D9E954] bg-black px-4 italic">Studio</span></h1>
                         <div class="bg-black text-white p-4 rounded-3xl">
-                             <i class="fa-solid fa-camera-retro text-3xl"></i>
+                            <i class="fa-solid fa-camera-retro text-3xl"></i>
                         </div>
                     </div>
                     <p class="text-gray-600 text-lg leading-relaxed mb-8">

@@ -1,13 +1,22 @@
 <?php
+namespace Src\controllers;
 
-class ClubController {
-    
-    public function index() {
-        // Load the home view
-        require_once __DIR__ . '/../views/home/home.blade.php';
+use Src\core\Controller;
+use Src\Repositories\ClubRepository;
+
+class ClubController extends Controller
+{
+    public function index()
+    {
+        require __DIR__ . '/../views/home/home.blade.php';
     }
 
-    public function club() {
-        require_once __DIR__ . '/../views/club/club.blade.php';
+    public function club()
+    {
+        // $database = new Database();
+        $clubRepo = new ClubRepository();
+        $data = $clubRepo->getAll();
+
+        require __DIR__ . '/../views/club/club.blade.php';
     }
 }
