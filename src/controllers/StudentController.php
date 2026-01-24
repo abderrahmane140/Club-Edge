@@ -1,22 +1,19 @@
 <?php
-
 namespace Src\controllers;
+require_once __DIR__.'/../Services/ClubService.php';
+require_once __DIR__ . '/../Repositories/ClubRepository.php';
 
-use Src\Repositories\ClubRepository;
+use Src\core\Controller;
 use Src\Repositories\EventRepository;
 use Src\Repositories\ReviewRepository;
 use Src\Repositories\ArticleRepository;
-use Src\Services\ClubService;
-use Src\Services\EventService;
 
 class StudentController extends Controller{
-
     private ClubRepository $clubRepository;
     private EventRepository $eventRepository;
     private ReviewRepository $reviewRepository;
     private ArticleRepository $articleRepository;
     private ClubService $clubService;
-    private EventService $eventService;
 
     public function __construct()
     {
@@ -24,8 +21,7 @@ class StudentController extends Controller{
         $this->eventRepository   = new EventRepository();
         $this->reviewRepository  = new ReviewRepository();
         $this->articleRepository = new ArticleRepository();
-        $this->clubService       = new ClubService();
-        $this->eventService      = new EventService();
+        $this->clubService       = new ClubService($this->clubRepository);
     }
 
     // Dashboard étudiant
@@ -128,10 +124,7 @@ class StudentController extends Controller{
     }
 
     // Les Events d'un Club
-    public function getByClub(int $clubId): array
-    {
-        
-    }
+
 
    
 }

@@ -32,6 +32,25 @@ $router = new Router();
 
 /* ROUTES */
 $router->get('/', 'ClubController@index');
+$router->get('/events', 'EventController@index');
+$router->get('/events/show/{id}', 'EventController@show');
+$router->get('/events/create', 'EventController@create');
+$router->post('/events/store', 'EventController@store');
+$router->get('/events/edit/{id}', 'EventController@edit');
+$router->post('/events/update/{id}', 'EventController@update');
+$router->post('/events/delete/{id}', 'EventController@delete');
+
+$router->get('/clubs/{id}/events', 'EventController@getEventByClub');
+$router->get('/events/{id}/users', 'EventController@getUsersByEvent');
+
+
+//articles
+$router->get('/articles', 'ArticleController@index');
+$router->post('/articles', 'ArticleController@store');
+
+
+
+$router->get('/', 'ClubController@index');
 $router->get('/register', 'AuthController@register');
 $router->post('/register', 'AuthController@register');
 $router->get('/login', 'AuthController@login');
@@ -55,5 +74,3 @@ $router->post('/admin/std', 'Adminstudentcontroller@index');
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();
-
-
