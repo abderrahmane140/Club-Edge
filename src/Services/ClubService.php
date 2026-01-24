@@ -110,4 +110,26 @@ class ClubService {
             throw new Exception("Error counting clubs: " . $e->getMessage());
         }
     }
+
+   
+
+    public function joinClub(int $studentId, int $clubId): void {
+
+        
+        if ($this->clubRepository->studentHasClub($studentId)) {
+            throw new Exception("Vous êtes déjà inscrit dans un club.");
+        }
+
+        $memberCount = $this->clubRepository->countMembers($clubId);
+        if ($memberCount >= 8) {
+            throw new Exception("Ce club a atteint le nombre maximum de membres.");
+        }
+
+        $this->clubRepository->addMember($clubId, $studentId);
+
+        if ($memberCount === 0) {
+            $this->clubRepository->setPresident($clubId, $studentId);
+            $this->userRepository->changeRole($studentId, 'president');
+        }
+    }
 }
