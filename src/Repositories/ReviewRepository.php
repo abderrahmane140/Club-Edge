@@ -1,9 +1,8 @@
-<?php 
-
+<?php
+namespace Src\Repositories;
 use Src\core\Database;
 class ReviewRepository{
-
-    private PDO $pdo;
+    private \PDO $pdo;
 
     public function __construct()
     {

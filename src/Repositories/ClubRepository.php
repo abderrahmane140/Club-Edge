@@ -1,4 +1,6 @@
 <?php
+
+namespace Src\Repositories;
 use Src\core\Database;
 
 class ClubRepository {

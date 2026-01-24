@@ -77,25 +77,78 @@ class AdminController extends Controller {
     }
 
 
-    public function createClub() {
+    public function create(): void
+    {
+        // If you have a base Controller with $this->render(), use it:
+        // $this->render('admin/clubs/create', []);
+
+        // If you DON'T have a render helper, do it directly:
+        $data = []; // you can pass errors/old values later if you want
+        $this->view("admin/Create");
+    }
+
+
+
+    public function clubs(): void
+    {
         try {
-            if (!isset($_POST['name'])) {
-                return json_encode(['success' => false, 'message' => 'Club name is required']);
-            }
+            $clubs = $this->clubService->getAllClubs(); // returns associative array rows
 
-            $name = $_POST['name'];
-            $description = $_POST['description'] ?? null;
-            $president_id = $_POST['president_id'] ?? null;
+            $data = [
+                'clubs' => $clubs,
+            ];
 
-            $this->clubService->createClub($name, $description, $president_id);
 
-            return json_encode(['success' => true, 'message' => 'Club created successfully']);
+            $this->view('admin/index',$data); //showing all clubs
+            return;
         } catch (Exception $e) {
-            return json_encode(['success' => false, 'message' => $e->getMessage()]);
+            http_response_code(500);
+            $data = [
+                'clubs' => [],
+                'error' => $e->getMessage(),
+            ];
+            $this->view('admin/index',$data); //showing all clubs
+            return;
         }
     }
 
- 
+
+
+    public function createClub(): void
+    {
+        try {
+            $name = trim($_POST['name'] ?? '');
+            if ($name === '') {
+                $data = [
+                    'error' => 'Club name is required.',
+                    'old'   => $_POST,
+                ];
+               $this->view('admin/create',$data);
+                return;
+            }
+
+            $description = trim($_POST['description'] ?? '');
+            $description = ($description === '') ? null : $description;
+
+            // Service call: president_id is NULL
+            $this->clubService->createClub($name, $description);
+
+            // Redirect after success (prevents resubmission)
+            $this->redirect('admin/clubs');
+            exit;
+
+        } catch (Exception $e) {
+            $data = [
+                'error' => $e->getMessage(),
+                'old'   => $_POST,
+            ];
+            $this->view('admin/clubs');
+            return;
+        }
+    }
+
+
+
     public function getAllClubs() {
         try {
             $clubs = $this->clubService->getAllClubs();

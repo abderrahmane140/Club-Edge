@@ -41,8 +41,10 @@ $router->post('/club', 'ClubController@club');
 $router->post('/admin/delete', 'AdminController@delete');
 $router->get('/admin', 'AdminController@index');
 $router->get('/admin/etudiants/{id}', 'AdminController@edit');
+$router->get('/admin/create', 'AdminController@create');
+$router->post('/admin/create', 'AdminController@createClub');
 $router->post('/admin/etudiants/{id}', 'AdminController@update');
-
+$router->get('/admin/index','AdminController@clubs');
 
 
 $router->post('/admin/std', 'Adminstudentcontroller@index');

@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Controllers;
+namespace Src\controllers;
 
 use Src\Repositories\ClubRepository;
 use Src\Repositories\EventRepository;
