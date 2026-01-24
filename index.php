@@ -4,6 +4,7 @@ require_once __DIR__ .  '/src/core/Database.php';
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/core/Router.php';
 
+
 $envFile = __DIR__ . '/.env';
 
 if (!file_exists($envFile)) {
@@ -23,15 +24,36 @@ foreach ($lines as $line) {
 $router = new Router();
 
 /* ROUTES */
-// $router->get('/', 'ClubController@index');
+$router->get('/', 'ClubController@index');
 $router->get('/register', 'AuthController@register');
 $router->post('/register', 'AuthController@register');
 $router->get('/login', 'AuthController@login');
 $router->post('/login', 'AuthController@login');
 $router->get('/club', 'ClubController@club');
 $router->post('/club', 'ClubController@club');
+$router->post('/admin/delete', 'AdminController@delete');
 $router->get('/admin', 'AdminController@index');
-$router->post('/admin', 'AdminController@index');
+$router->get('/admin/etudiants/{id}', 'AdminController@edit');
+$router->post('/admin/etudiants/{id}', 'AdminController@edit');
+
+
+
+$router->post('/admin/std', 'Adminstudentcontroller@index');
+
+$router->get('/detailsClub', 'ClubController@details');
+$router->get('/myClub', 'ClubController@myClub');
+$router->post('/joinClub', 'ClubController@join');
+$router->post('/confirmPresence', 'ClubController@confirmPresence');
+$router->post('/logout', 'AuthController@logout');
+
+/* PRESIDENT ROUTES */
+$router->get('/president', 'ClubController@presidentDashboard');
+$router->post('/president/create-event', 'ClubController@createEvent');
+$router->post('/president/create-article', 'ClubController@createArticle');
+
+
+
+
 
 /* DISPATCH (VERY IMPORTANT) */
 $router->dispatch();

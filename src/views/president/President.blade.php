@@ -40,65 +40,98 @@
             <div class="lg:col-span-1">
                 <div class="bg-white brutal-card rounded-[2.5rem] p-8 h-[570px] flex flex-col">
                     <h2 class="text-xl font-black mb-6 uppercase flex items-center justify-between">
-                        Membres <span class="text-sm bg-gray-100 px-3 py-1 rounded-full">42</span>
+                        Membres <span class="text-sm bg-gray-100 px-3 py-1 rounded-full">{{ count($members) }}</span>
                     </h2>
                     
                     <div class="flex-grow overflow-y-auto pr-2 space-y-4 custom-scrollbar">
+                        @foreach($members as $member)
                         <div class="flex items-center justify-between p-4 border-2 border-gray-50 rounded-2xl hover:border-black transition cursor-pointer group">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-zinc-200 font-bold flex items-center justify-center text-xs">AM</div>
+                                <div class="w-10 h-10 rounded-full bg-zinc-200 font-bold flex items-center justify-center text-xs">
+                                    {{ strtoupper(substr($member['name'], 0, 2)) }}
+                                </div>
                                 <div>
-                                    <p class="text-sm font-black">Alice Martin</p>
-                                    <p class="text-[10px] text-gray-400">ID-2026-001</p>
+                                    <p class="text-sm font-black">{{ $member['name'] }}</p>
+                                    <p class="text-[10px] text-gray-400">{{ $member['email'] }}</p>
                                 </div>
                             </div>
                             <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-black"></i>
                         </div>
-                        <div class="flex items-center justify-between p-4 border-2 border-gray-50 rounded-2xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-zinc-900 text-white font-bold flex items-center justify-center text-xs">BJ</div>
-                                <div>
-                                    <p class="text-sm font-black">Bob Johnson</p>
-                                    <p class="text-[10px] text-gray-400">ID-2026-014</p>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-chevron-right text-gray-300"></i>
-                        </div>
-                        <div class="p-4 text-center text-xs text-gray-400 italic">... et 40 autres membres</div>
+                        @endforeach
+                        
+                        @if(empty($members))
+                            <div class="p-4 text-center text-xs text-gray-400 italic">Aucun membre pour le moment</div>
+                        @endif
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-2 space-y-10">
                 
+                <!-- CREATE EVENT -->
                 <div class="bg-white brutal-card rounded-[2.5rem] p-8 md:p-10 border-t-8 border-t-[#D9E954]">
                     <h2 class="text-2xl font-black mb-6 uppercase flex items-center gap-3">
                         <i class="fa-solid fa-calendar-plus text-[#D9E954] bg-black p-2 rounded-lg text-sm"></i>
                         Créer un Événement
                     </h2>
                     
-                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form action="/president/create-event" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-[10px] font-black uppercase ml-1">Titre de l'événement</label>
-                            <input type="text" placeholder="Ex: Workshop Adobe XD" class="brutal-input">
+                            <input type="text" name="title" placeholder="Ex: Workshop Adobe XD" class="brutal-input" required>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase ml-1">Date & Heure</label>
-                            <input type="datetime-local" class="brutal-input">
+                            <input type="datetime-local" name="date" class="brutal-input" required>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase ml-1">Lieu / Salle</label>
-                            <input type="text" placeholder="Amphi C" class="brutal-input">
+                            <input type="text" name="location" placeholder="Amphi C" class="brutal-input" required>
                         </div>
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-[10px] font-black uppercase ml-1">Description courte</label>
-                            <textarea rows="2" class="brutal-input resize-none" placeholder="Objectifs de l'événement..."></textarea>
+                            <textarea name="description" rows="2" class="brutal-input resize-none" placeholder="Objectifs de l'événement..." required></textarea>
                         </div>
                         <button type="submit" class="md:col-span-2 bg-black text-white py-4 rounded-2xl font-black hover:bg-zinc-800 transition shadow-[4px_4px_0px_#D9E954]">
                             PUBLIER L'ÉVÉNEMENT <i class="fa-solid fa-paper-plane ml-2"></i>
                         </button>
                     </form>
                 </div>
+
+                <!-- PENDING ARTICLES (Finished Events) -->
+                @if(!empty($pendingEvents))
+                <div class="bg-zinc-900 text-white brutal-card rounded-[2.5rem] p-8 md:p-10 border-2 border-[#D9E954]">
+                    <h2 class="text-2xl font-black mb-6 uppercase flex items-center gap-3 text-white">
+                        <i class="fa-solid fa-newspaper text-black bg-[#D9E954] p-2 rounded-lg text-sm"></i>
+                        Événements Terminés (Articles à rédiger)
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        @foreach($pendingEvents as $event)
+                        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700">
+                             <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="font-bold text-lg">{{ $event['title'] }}</h3>
+                                    <p class="text-xs text-gray-400">Terminé le {{ date('d/m/Y', strtotime($event['event_date'])) }}</p>
+                                </div>
+                                <span class="bg-red-500 text-white text-[10px] px-2 py-1 rounded font-bold uppercase">En attente d'article</span>
+                             </div>
+
+                             <form action="/president/create-article" method="POST" class="space-y-4">
+                                <input type="hidden" name="event_id" value="{{ $event['id'] }}">
+                                <input type="hidden" name="title" value="Article: {{ $event['title'] }}"> <!-- Default title -->
+                                
+                                <textarea name="content" rows="3" class="w-full bg-zinc-900 border border-zinc-600 rounded-xl p-3 text-sm text-white focus:border-[#D9E954] outline-none" placeholder="Rédiger le résumé de l'événement..."></textarea>
+                                
+                                <button type="submit" class="w-full bg-[#D9E954] text-black py-2 rounded-xl font-bold text-xs hover:bg-white transition">
+                                    PUBLIER L'ARTICLE
+                                </button>
+                             </form>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
 
             </div>
         </div>

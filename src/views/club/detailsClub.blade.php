@@ -16,9 +16,12 @@
 <body class="text-gray-900 pb-20">
 
     <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-        <a href="index.html" class="font-bold flex items-center gap-2 hover:underline">
-            <i class="fa-solid fa-arrow-left"></i> Retour
-        </a>
+        <div class="flex items-center gap-6">
+            <a href="/club" class="font-bold flex items-center gap-2 hover:underline">
+                <i class="fa-solid fa-arrow-left"></i> Retour
+            </a>
+            <a href="/myClub" class="text-sm font-bold hover:underline">Mon Club</a>
+        </div>
         <div class="text-xl font-extrabold uppercase italic">
             <span class="bg-black text-white px-2 py-1">Club</span>Edge
         </div>
@@ -31,13 +34,13 @@
                 
                 <section class="bg-white brutal-card rounded-[3rem] p-10">
                     <div class="flex justify-between items-start mb-6">
-                        <h1 class="text-5xl font-black uppercase leading-tight">Creative <br><span class="text-[#D9E954] bg-black px-4 italic">Studio</span></h1>
+                        <h1 class="text-5xl font-black uppercase leading-tight">{{ $club['name'] }}</h1>
                         <div class="bg-black text-white p-4 rounded-3xl">
                             <i class="fa-solid fa-camera-retro text-3xl"></i>
                         </div>
                     </div>
                     <p class="text-gray-600 text-lg leading-relaxed mb-8">
-                        Le Creative Studio est l'espace ultime pour les passionnés de design graphique, de photographie et de direction artistique. Notre mission est de digitaliser la créativité au sein de l'institution à travers des projets concrets et des ateliers hebdomadaires.
+                        {{ $club['description'] }}
                     </p>
                     
                     <div class="bg-gray-50 border-2 border-dashed border-black rounded-3xl p-6">
@@ -52,47 +55,8 @@
                     </div>
                 </section>
 
-                <section>
-                    <h2 class="text-2xl font-black uppercase mb-6 flex items-center gap-3">
-                        <i class="fa-solid fa-newspaper text-xl"></i> Articles du Club
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white border-2 border-black rounded-[2rem] p-6 hover:translate-y-[-5px] transition-all">
-                            <p class="text-[10px] font-black text-gray-400 mb-2 uppercase">15 Jan 2026</p>
-                            <h4 class="font-black text-lg mb-3">L'IA dans le Design : Menace ou Outil ?</h4>
-                            <p class="text-sm text-gray-500 line-clamp-2 mb-4">Résumé de notre dernier débat passionné sur l'utilisation de Midjourney...</p>
-                            <a href="#" class="text-xs font-black underline italic">Lire l'article</a>
-                        </div>
-                        <div class="bg-white border-2 border-black rounded-[2rem] p-6 hover:translate-y-[-5px] transition-all">
-                            <p class="text-[10px] font-black text-gray-400 mb-2 uppercase">02 Jan 2026</p>
-                            <h4 class="font-black text-lg mb-3">Portfolio Review : Résultats</h4>
-                            <p class="text-sm text-gray-500 line-clamp-2 mb-4">Félicitations aux 3 membres qui ont décroché un stage grâce à leurs travaux...</p>
-                            <a href="#" class="text-xs font-black underline italic">Lire l'article</a>
-                        </div>
-                    </div>
-                </section>
+                <!-- ... (Dynamic Articles and Events can be added here later if data exists) ... -->
 
-                <section class="bg-black text-white rounded-[3rem] p-10">
-                    <h2 class="text-2xl font-black uppercase mb-8 text-[#D9E954]">Historique des Événements</h2>
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-6 border-b border-zinc-800 pb-4">
-                            <span class="text-xl font-black text-gray-500 italic">01.</span>
-                            <div class="flex-grow">
-                                <h4 class="font-bold">Workshop Logo Design</h4>
-                                <p class="text-xs text-gray-500 italic">Décembre 2025 • 12 participants</p>
-                            </div>
-                            <i class="fa-solid fa-circle-check text-green-500"></i>
-                        </div>
-                        <div class="flex items-center gap-6 border-b border-zinc-800 pb-4">
-                            <span class="text-xl font-black text-gray-500 italic">02.</span>
-                            <div class="flex-grow">
-                                <h4 class="font-bold">Sortie Photo Urbaine</h4>
-                                <p class="text-xs text-gray-500 italic">Novembre 2025 • 8 participants</p>
-                            </div>
-                            <i class="fa-solid fa-circle-check text-green-500"></i>
-                        </div>
-                    </div>
-                </section>
             </div>
 
             <div class="lg:col-span-4 space-y-8">
@@ -102,8 +66,9 @@
                     <div class="w-24 h-24 bg-zinc-100 rounded-[2rem] mx-auto mb-4 border-2 border-black flex items-center justify-center">
                         <i class="fa-solid fa-user-tie text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-black uppercase">Defri M. Fahrul</h3>
-                    <p class="text-xs font-bold text-gray-500 mb-6 italic">Étudiant en Master Design</p>
+                    <!-- President Name Placeholder or Fetch if available -->
+                    <h3 class="text-xl font-black uppercase">Président</h3> 
+                    <p class="text-xs font-bold text-gray-500 mb-6 italic">Étudiant responsable</p>
                     <div class="flex justify-center gap-4">
                         <button class="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition">
                             <i class="fa-brands fa-linkedin-in"></i>
@@ -116,26 +81,38 @@
 
                 <div class="bg-white brutal-card rounded-[2.5rem] p-8">
                     <h3 class="text-sm font-black uppercase mb-6 italic">Membres de l'équipe</h3>
+                    <!-- Placeholder Members -->
                     <div class="grid grid-cols-4 gap-3">
+                         <!-- Dynamically list members if available -->
                         <div class="w-full aspect-square rounded-xl bg-gray-900 border-2 border-black" title="Membre 1"></div>
-                        <div class="w-full aspect-square rounded-xl bg-gray-800 border-2 border-black" title="Membre 2"></div>
-                        <div class="w-full aspect-square rounded-xl bg-gray-700 border-2 border-black" title="Membre 3"></div>
-                        <div class="w-full aspect-square rounded-xl bg-gray-600 border-2 border-black" title="Membre 4"></div>
-                        <div class="w-full aspect-square rounded-xl bg-gray-500 border-2 border-black" title="Membre 5"></div>
-                        <div class="w-full aspect-square rounded-xl bg-gray-400 border-2 border-black" title="Membre 6"></div>
-                        <div class="w-full aspect-square rounded-xl border-2 border-black border-dashed flex items-center justify-center">
-                            <i class="fa-solid fa-plus text-gray-300"></i>
-                        </div>
                         <div class="w-full aspect-square rounded-xl border-2 border-black border-dashed flex items-center justify-center">
                             <i class="fa-solid fa-plus text-gray-300"></i>
                         </div>
                     </div>
                 </div>
 
-                <button class="w-full bg-[#D9E954] text-black py-5 rounded-[2rem] font-black text-lg border-4 border-black hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all transform hover:-translate-x-2 hover:-translate-y-2">
-                    POSTULER AU CLUB <i class="fa-solid fa-paper-plane ml-2"></i>
-                </button>
-                <p class="text-center text-[10px] font-bold uppercase text-gray-400">Validation par le président requise</p>
+                @if ($isMember)
+                    <div class="w-full bg-green-500 text-white py-5 rounded-[2rem] font-black text-lg border-4 border-black text-center">
+                        VOUS ÊTES MEMBRE <i class="fa-solid fa-check-circle ml-2"></i>
+                    </div>
+                @elseif ($userClub && $userClub['id'] != $club['id'])
+                    <div class="w-full bg-red-100 text-red-600 py-5 rounded-[2rem] font-black text-sm border-4 border-black text-center px-4">
+                        <i class="fa-solid fa-triangle-exclamation mb-2 text-2xl"></i><br>
+                        VOUS ÊTES DÉJÀ MEMBRE DU CLUB <br>
+                        <span class="uppercase underline text-black">{{ $userClub['name'] }}</span>
+                    </div>
+                    <a href="/myClub" class="block mt-4 text-center text-xs font-bold underline hover:text-[#D9E954]">
+                        Voir mon club
+                    </a>
+                @else
+                    <form action="/confirmPresence" method="POST">
+                        <input type="hidden" name="idClub" value="{{ $club['id'] }}">
+                        <button type="submit" class="w-full bg-[#D9E954] text-black py-5 rounded-[2rem] font-black text-lg border-4 border-black hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all transform hover:-translate-x-2 hover:-translate-y-2">
+                            JE CONFIRME MA PRÉSENCE <i class="fa-solid fa-check ml-2"></i>
+                        </button>
+                    </form>
+                    <p class="text-center text-[10px] font-bold uppercase text-gray-400">En cliquant, vous validez votre inscription.</p>
+                @endif
             </div>
 
         </div>

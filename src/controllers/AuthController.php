@@ -1,9 +1,10 @@
 <?php
-// app/Controllers/AuthController.php
+namespace Src\controllers;
 
-require_once __DIR__ . '/../../src/Repositories/UserRepository.php';
-
+require_once __DIR__ . '/../Repositories/UserRepository.php';
+                                                                                        
 use Src\core\Controller;
+use Src\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
@@ -25,8 +26,7 @@ class AuthController extends Controller
 
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            $repo = new UserRepository();
-            $repo->create($name, $email, $hashedPassword, $role);
+            (new UserRepository())->create($name, $email, $hashedPassword, $role);
         }
 
 
@@ -84,4 +84,12 @@ class AuthController extends Controller
     exit;
 }
 
+    public function logout() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        session_destroy();
+        header('Location: /login');
+        exit;
+    }
 }

@@ -2,38 +2,36 @@
 
 namespace Src\Repositories;
 
-use Src\core\Database;
+use PDO;
 
 class ClubRepository
 {
-    private $db;
+    private PDO $db;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->db = Database::getConnection();
+        $this->db = $db;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $query = "SELECT * FROM clubs ORDER BY created_at DESC";
-        return $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public function getById($id)
+    public function getById(int $id)
     {
         $stmt = $this->db->prepare("SELECT * FROM clubs WHERE id = :id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
-    public function create($name, $description, $president_id = null)
+    public function create(string $name, ?string $description = null, $president_id = null): bool
     {
-        $stmt = $this->db->prepare("
-        INSERT INTO clubs (name, description, president_id)
-        VALUES (:name, :description, :president_id)
-    ");
+        $stmt = $this->db->prepare(
+            "INSERT INTO clubs (name, description, president_id)
+             VALUES (:name, :description, :president_id)"
+        );
 
         return $stmt->execute([
             'name' => $name,
@@ -42,16 +40,13 @@ class ClubRepository
         ]);
     }
 
-
-    public function update($id, $name, $description, $president_id = null)
+    public function update(int $id, string $name, ?string $description = null, $president_id = null): bool
     {
-        $stmt = $this->db->prepare("
-        UPDATE clubs
-        SET name = :name,
-            description = :description,
-            president_id = :president_id
-        WHERE id = :id
-    ");
+        $stmt = $this->db->prepare(
+            "UPDATE clubs
+             SET name = :name, description = :description, president_id = :president_id
+             WHERE id = :id"
+        );
 
         return $stmt->execute([
             'id' => $id,
@@ -61,77 +56,69 @@ class ClubRepository
         ]);
     }
 
-
-    public function delete($id)
+    public function delete(int $id): bool
     {
         $stmt = $this->db->prepare("DELETE FROM clubs WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
 
-
-    public function countMembers(int $clubId): int
+    public function addMember(int $clubId, int $studentId): bool
     {
+        try {
+            $this->db->beginTransaction();
 
-        $stmt = $this->db->prepare(
-            "SELECT COUNT(*) FROM club_members WHERE club_id = :club_id"
-        );
-        $stmt->execute(['club_id' => $clubId]);
-        return (int)$stmt->fetchColumn();
+            // Insert member
+            $stmt = $this->db->prepare("INSERT INTO club_members (club_id, student_id) VALUES (:clubId, :studentId)");
+            $stmt->execute(['clubId' => $clubId, 'studentId' => $studentId]);
+
+            // Check if club has a president
+            $checkStmt = $this->db->prepare("SELECT president_id FROM clubs WHERE id = :clubId");
+            $checkStmt->execute(['clubId' => $clubId]);
+            $club = $checkStmt->fetch(PDO::FETCH_ASSOC);
+
+            // If no president, assign this user
+            if (!$club['president_id']) {
+                $updateStmt = $this->db->prepare("UPDATE clubs SET president_id = :studentId WHERE id = :clubId");
+                $updateStmt->execute(['studentId' => $studentId, 'clubId' => $clubId]);
+            }
+
+            $this->db->commit();
+            return true;
+        } catch (\PDOException $e) {
+            $this->db->rollBack();
+            // Likely duplicate entry or constraint violation
+            return false;
+        }
     }
 
-
-    public function studentHasClub(int $studentId): bool
+    public function getMembers(int $clubId): array
     {
-
         $stmt = $this->db->prepare(
-            "SELECT 1 FROM club_members WHERE student_id = :student_id"
+            "SELECT u.id, u.name, u.email, u.role
+             FROM users u
+             JOIN club_members cm ON u.id = cm.student_id
+             WHERE cm.club_id = :clubId"
         );
-        $stmt->execute(['student_id' => $studentId]);
-        return (bool)$stmt->fetch();
+        $stmt->execute(['clubId' => $clubId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addMember(int $clubId, int $studentId): void
+    public function isMember(int $userId, int $clubId): bool
     {
-
-        $stmt = $this->db->prepare(
-            "INSERT INTO club_members (club_id, student_id)
-             VALUES (:club_id, :student_id)"
-        );
-        $stmt->execute([
-            'club_id' => $clubId,
-            'student_id' => $studentId
-        ]);
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM club_members WHERE student_id = :userId AND club_id = :clubId");
+        $stmt->execute(['userId' => $userId, 'clubId' => $clubId]);
+        return $stmt->fetchColumn() > 0;
     }
 
-    public function getClubByEvent(int $eventId): int
+    public function getUserClub(int $userId)
     {
         $stmt = $this->db->prepare(
-            "SELECT club_id FROM events WHERE id = :id"
+            "SELECT c.* 
+             FROM clubs c
+             JOIN club_members cm ON c.id = cm.club_id
+             WHERE cm.student_id = :userId"
         );
-        $stmt->execute(['id' => $eventId]);
-        return (int)$stmt->fetchColumn();
-    }
-
-    public function registerStudent(int $eventId, int $studentId): void
-    {
-        $stmt = $this->db->prepare(
-            "INSERT INTO event_participants (event_id, student_id)
-             VALUES (:event_id, :student_id)"
-        );
-        $stmt->execute([
-            'event_id' => $eventId,
-            'student_id' => $studentId
-        ]);
-    }
-
-    public function isStudentMemberOfClub(int $studentId, int $clubId): bool
-    {
-
-        $stmt = $this->db->prepare(
-            "SELECT 1 FROM club_members 
-             WHERE student_id = :student_id AND club_id = :club_id"
-        );
-        $stmt->execute(['student_id' => $studentId, 'club_id' => $clubId]);
-        return (bool)$stmt->fetch();
+        $stmt->execute(['userId' => $userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

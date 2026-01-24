@@ -1,3 +1,8 @@
+
+CREATE DATABASE club_platform;
+
+
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -6,6 +11,7 @@ CREATE TABLE users (
     role VARCHAR(20) CHECK (role IN ('student', 'admin','president')) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 
 CREATE TABLE clubs (
@@ -71,6 +77,8 @@ CREATE TABLE reviews (
     CONSTRAINT fk_review_student FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE (event_id, student_id)
 );
+
+
 
 
 CREATE TABLE articles (

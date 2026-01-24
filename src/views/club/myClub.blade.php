@@ -17,7 +17,7 @@
 
     <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div class="flex space-x-6 text-sm font-bold">
-            <a href="index.html" class="hover:underline">Accueil</a>
+            <a href="/" class="hover:underline">Accueil</a>
             <a href="#" class="text-[#D9E954] bg-black px-4 py-1 rounded-full">Mon Club</a>
         </div>
         <div class="text-xl font-extrabold tracking-tighter uppercase italic">
@@ -40,8 +40,8 @@
             </div>
             
             <div class="z-10 text-center md:text-left">
-                <h1 class="text-4xl md:text-6xl font-black uppercase mb-4 leading-tight">Creative Studio</h1>
-                <p class="text-gray-400 text-lg max-w-xl mb-6">Bienvenue dans votre espace membre. Ici, nous transformons des pixels en émotions. Prêt pour le prochain projet ?</p>
+                <h1 class="text-4xl md:text-6xl font-black uppercase mb-4 leading-tight">{{ $club['name'] }}</h1>
+                <p class="text-gray-400 text-lg max-w-xl mb-6">{{ $club['description'] }}</p>
                 <div class="flex flex-wrap justify-center md:justify-start gap-4">
                     <span class="bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-2xl text-xs font-bold"><i class="fa-solid fa-users mr-2 text-[#D9E954]"></i> 42 Membres</span>
                     <span class="bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-2xl text-xs font-bold"><i class="fa-solid fa-trophy mr-2 text-[#D9E954]"></i> Top Club 2026</span>
@@ -53,37 +53,64 @@
     <main class="max-w-7xl mx-auto px-8 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
         
         <div class="lg:col-span-2 space-y-10">
-            <h2 class="text-3xl font-black uppercase italic border-l-8 border-black pl-4">Derniers Articles</h2>
+            <h2 class="text-3xl font-black uppercase italic border-l-8 border-black pl-4">Membres du Club</h2>
             
-            <article class="bg-white brutal-card rounded-[2.5rem] overflow-hidden article-card border-2 border-black">
-                <div class="h-64 bg-zinc-200 flex items-center justify-center relative">
-                    <i class="fa-solid fa-image text-4xl text-gray-400"></i>
-                    <span class="absolute bottom-4 left-4 bg-black text-white px-4 py-1 rounded-full text-[10px] font-bold">ACTUALITÉ • 20 JAN</span>
-                </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-black mb-4 uppercase">Retour sur le Workshop "Typography & Chaos"</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Mercredi dernier, nous avons exploré comment briser les règles de la typographie traditionnelle pour créer des designs brutaux. Plus de 30 membres étaient présents...
-                    </p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-black text-[#D9E954] flex items-center justify-center text-[10px] font-bold">P</div>
-                            <span class="text-xs font-black uppercase">Par le Président</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach($members as $member)
+                <div class="bg-white brutal-card rounded-[2rem] p-6 border-2 border-black flex items-center gap-4 relative overflow-hidden">
+                    @if($member['id'] == $club['president_id'])
+                        <div class="absolute top-0 right-0 bg-[#D9E954] text-black text-[10px] font-black px-3 py-1 rounded-bl-xl uppercase">
+                            Président
                         </div>
-                        <a href="#" class="text-sm font-black underline hover:text-[#D9E954]">Lire la suite <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    @endif
+                    
+                    <div class="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center font-bold text-xl border-2 border-dashed border-white ring-2 ring-black">
+                        {{ strtoupper(substr($member['name'], 0, 1)) }}
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-black uppercase leading-tight">{{ $member['name'] }}</h3>
+                        <p class="text-xs font-bold text-gray-500">{{ $member['email'] }}</p>
+                        @if($member['id'] == $club['president_id'])
+                            <p class="text-[10px] font-black uppercase text-[#D9E954] bg-black inline-block px-2 rounded mt-1">Leader</p>
+                        @else
+                            <p class="text-[10px] font-bold text-gray-400 uppercase mt-1">Membre</p>
+                        @endif
                     </div>
                 </div>
-            </article>
+                @endforeach
+            </div>
 
-            <article class="bg-white brutal-card rounded-[2.5rem] p-8 border-2 border-black article-card">
-                <div class="flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-bolt text-[#D9E954] bg-black p-2 rounded-lg text-xs"></i>
-                    <span class="text-[10px] font-black uppercase text-gray-400 italic tracking-widest">Flash News</span>
-                </div>
-                <h3 class="text-xl font-black mb-2 uppercase">Licences Adobe disponibles !</h3>
-                <p class="text-sm text-gray-500 mb-4">Passez au bureau du club pour récupérer vos accès Creative Cloud pour le semestre.</p>
-                <p class="text-[10px] font-bold text-gray-300">PUBLIÉ IL Y A 3 JOURS</p>
-            </article>
+            <!-- ARTICLES SECTION -->
+            <div class="mt-12">
+                <h2 class="text-3xl font-black uppercase italic border-l-8 border-black pl-4 mb-8">Articles du Club</h2>
+                
+                @if(isset($articles) && count($articles) > 0)
+                    <div class="space-y-8">
+                        @foreach($articles as $article)
+                        <div class="bg-white brutal-card rounded-[2rem] p-6 border-2 border-black article-card relative">
+                            <div class="absolute -top-3 -right-3 bg-black text-[#D9E954] px-4 py-2 rounded-xl font-black text-xs border-2 border-white transform rotate-3">
+                                {{ isset($article['event_title']) ? $article['event_title'] : 'Article' }}
+                            </div>
+                            
+                            <h3 class="text-xl font-black uppercase mb-3">{{ $article['title'] }}</h3>
+                            <div class="prose prose-sm max-w-none text-gray-600 mb-4 line-clamp-3">
+                                {{ $article['content'] }}
+                            </div>
+                            
+                            <div class="flex justify-between items-center mt-4 pt-4 border-t-2 border-gray-100 border-dashed">
+                                <span class="text-[10px] font-bold text-gray-400 uppercase">Publié le {{ date('d/m/Y', strtotime($article['created_at'])) }}</span>
+                                <button class="bg-black text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-[#D9E954] hover:text-black transition">LIRE LA SUITE</button>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="bg-gray-100 rounded-2xl p-8 text-center border-2 border-dashed border-gray-300">
+                        <i class="fa-solid fa-newspaper text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-sm font-bold text-gray-400">Aucun article publié pour le moment.</p>
+                    </div>
+                @endif
+            </div>
         </div>
 
         <div class="space-y-8">
@@ -124,6 +151,5 @@
         </div>
 
     </main>
-
 </body>
 </html>

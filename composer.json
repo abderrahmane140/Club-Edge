@@ -12,9 +12,8 @@
         }
     ],
     "require": {
+      "ext-pdo": "*",
         "jenssegers/blade": "^2.0",
-        "illuminate/view": "^11.47",
-        "illuminate/filesystem": "^11.47",
-        "illuminate/events": "^11.47"
+        "eftec/bladeone": "^4.19"
     }
 }
