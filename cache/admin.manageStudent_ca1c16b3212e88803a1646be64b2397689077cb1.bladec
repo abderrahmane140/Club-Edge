@@ -31,13 +31,13 @@
  <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
  <i class="fa-solid fa-chart-pie"></i> Dashboard
  </a>
- <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
+ <a href="admin/create" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
  <i class="fa-solid fa-layer-group"></i> Gérer les Clubs
  </a>
  <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
  <i class="fa-solid fa-calendar-days"></i> Événements
  </a>
- <a href="#" class="flex items-center gap-3 text-[#D9E954] font-bold sidebar-item transition">
+ <a href="" class="flex items-center gap-3 text-[#D9E954] font-bold sidebar-item transition">
  <i class="fa-solid fa-user-graduate"></i> Étudiants
  </a>
  </nav>

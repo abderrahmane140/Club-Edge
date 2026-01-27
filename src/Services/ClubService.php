@@ -79,7 +79,7 @@ class ClubService
 
     public function canCreate()
     {
-       if( $this->clubRepository->getCount() <= 8 ){
+       if( $this->clubRepository->getCount() <= 8 ){ //busness rule
            return true;
        }
        return false;
