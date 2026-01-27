@@ -4,9 +4,14 @@ namespace Src\controllers;
 use Src\core\Controller;
 use Src\Repositories\ClubRepository;
 use Src\core\Database;
+use Src\Services\ClubService;
 
 class ClubController extends Controller
 {
+    private $service;
+    public function __construct(){
+        $this->service = new ClubService(new ClubRepository(Database::getConnection()));
+    }
     public function index()
     {
         $this->view('home/home');
@@ -228,7 +233,37 @@ class ClubController extends Controller
 
     public function create(): void
     {
-        $this->view("admin/Create");
+        $this->view("admin/create");
+    }
+
+    public function createClub(): void
+    {
+        try {
+            $name = trim($_POST['name'] ?? '');
+            if ($name === '') {
+
+                $this->view('admin/create',['error'=>'error text not working']);
+                return;
+            }
+
+            $description = $_POST['description'] ;
+            $description = ($description === '') ? null : $description;
+
+            // Service call: president_id is NULL
+            $this->service->createClub($name, $description);
+
+            // Redirect after success (prevents resubmission)
+            $this->redirect('/club');
+            exit;
+
+        } catch (Exception $e) {
+            $data = [
+                'error' => $e->getMessage(),
+                'old'   => $_POST,
+            ];
+            $this->view('admin/clubs');
+            return;
+        }
     }
 
 }

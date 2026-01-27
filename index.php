@@ -37,7 +37,9 @@ $router->post('/club', 'ClubController@club');
 $router->post('/admin/delete', 'AdminController@delete');
 $router->get('/admin', 'AdminController@index');
 $router->get('/admin/etudiants/{id}', 'AdminController@edit');
+$router->get('/admin/create', 'ClubController@create');
 $router->post('/admin/save', 'AdminController@update');
+$router->post('/admin/create', 'ClubController@createClub');
 
 
 
