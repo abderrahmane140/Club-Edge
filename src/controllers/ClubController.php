@@ -233,6 +233,9 @@ class ClubController extends Controller
 
     public function create(): void
     {
+        if(!$this->service->canCreate()){
+            $this->redirect('/admin');
+        }
         $this->view("admin/create");
     }
 
@@ -265,5 +268,7 @@ class ClubController extends Controller
             return;
         }
     }
+
+
 
 }

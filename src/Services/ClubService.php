@@ -76,4 +76,12 @@ class ClubService
 
         return $this->clubRepository->delete((int)$id);
     }
+
+    public function canCreate()
+    {
+       if( $this->clubRepository->getCount() <= 8 ){
+           return true;
+       }
+       return false;
+    }
 }

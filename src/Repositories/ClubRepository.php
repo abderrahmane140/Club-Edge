@@ -19,6 +19,14 @@ class ClubRepository
         return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCount(): int
+    {
+        $query = "SELECT * FROM clubs ORDER BY created_at DESC";
+        return $this->db->query($query)->rowCount();
+    }
+
+
+
     public function getById(int $id)
     {
         $stmt = $this->db->prepare("SELECT * FROM clubs WHERE id = :id");
