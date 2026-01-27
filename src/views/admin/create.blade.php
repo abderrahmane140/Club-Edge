@@ -35,7 +35,7 @@
         <a href="/admin/events" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
             <i class="fa-solid fa-calendar-days"></i> Événements
         </a>
-        <a href="/admin/etudiants" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
+        <a href="/admin" class="flex items-center gap-3 text-gray-400 hover:text-white sidebar-item transition">
             <i class="fa-solid fa-user-graduate"></i> Étudiants
         </a>
     </nav>
