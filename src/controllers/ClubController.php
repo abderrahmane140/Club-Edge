@@ -225,4 +225,10 @@ class ClubController extends Controller
         header('Location: /president');
         exit;
     }
+
+    public function create(): void
+    {
+        $this->view("admin/Create");
+    }
+
 }

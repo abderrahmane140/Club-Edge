@@ -7,10 +7,10 @@ namespace Src\models;
     protected int $id;
     protected string $name;
     protected string $email;
-    protected string $password;
+    protected ?string $password;
     protected string $role;
 
-    public function __construct(string $name,string $email,string $password,string $role,?int $id =null){
+    public function __construct(string $name,string $email,?string $password,string $role,?int $id =null){
 
         $this->id = $id;
         $this->name = $name;

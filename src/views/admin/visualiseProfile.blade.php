@@ -65,7 +65,7 @@
     <header class="flex flex-col md:flex-row md:justify-between md:items-end gap-6 mb-12">
         <div>
             <div class="flex items-center gap-3 mb-2">
-                <a href="/admin/etudiants" class="text-sm font-black text-gray-500 hover:text-black transition">
+                <a href="/ClubEdge/admin" class="text-sm font-black text-gray-500 hover:text-black transition">
                     <i class="fa-solid fa-arrow-left mr-2"></i> Retour
                 </a>
             </div>
@@ -91,15 +91,18 @@
                 </div>
                 <div>
                     <p class="text-xs font-black text-gray-400 uppercase">Étudiant</p>
-                    <p class="text-2xl font-extrabold" id="studentTitle">{{ $data['student']->getName() }}</p>
-                    <p class="text-[11px] text-gray-500 font-semibold italic">ID: <span id="studentIdLabel">#{{ $data['student']->getId() }}</span></p>
+                    <p class="text-2xl font-extrabold" id="studentTitle">{{ $users->getName() }}</p>
+                    <p class="text-[11px] text-gray-500 font-semibold italic">
+                        ID: <span id="studentIdLabel">#{{ $users->getId() }}</span>
+                    </p>
                 </div>
             </div>
 
             <!-- Edit/Save button -->
             <button
                     id="editBtn"
-                    type="submit"
+                    type="button"
+                    form="profileForm"
                     class="admin-card bg-white px-6 py-3 font-black text-xs uppercase inline-flex items-center gap-2"
                     aria-pressed="false"
             >
@@ -109,68 +112,68 @@
         </div>
 
         <!-- FORM (MVC) -->
-<form action="" method="POST" id="profileForm">
-    <input type="hidden" name="id" value="{{ $data['student']->getId() }}" id="studentIdHidden"/>
+        <form action="/admin/save" method="POST" id="profileForm">
+            <input type="hidden" name="id" value="{{ $users->getId() }}" id="studentIdHidden"/>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- ID -->
-        <div class="admin-card bg-white p-6">
-            <label class="block text-xs font-black uppercase text-gray-400 mb-2">ID</label>
-            <input
-                value="{{ $data['student']->getId() }}"
-                class="w-full bg-gray-50 border-2 border-black rounded-2xl px-4 py-3 font-extrabold outline-none"
-                readonly
-            />
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ID -->
+                <div class="admin-card bg-white p-6">
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">ID</label>
+                    <input
+                            value="{{ $users->getId() }}"
+                            class="w-full bg-gray-50 border-2 border-black rounded-2xl px-4 py-3 font-extrabold outline-none"
+                            readonly
+                    />
+                </div>
 
-        <!-- NAME -->
-        <div class="admin-card bg-white p-6">
-            <label class="block text-xs font-black uppercase text-gray-400 mb-2">Name</label>
-            <input
-                name="name"
-                value="{{ $data['student']->getName() }}"
-                class="profile-input w-full bg-white border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-black"
-                readonly
-                data-can-edit="true"
-                id="nameInput"
-            />
-        </div>
+                <!-- NAME -->
+                <div class="admin-card bg-white p-6">
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Name</label>
+                    <input
+                            name="name"
+                            value="{{ $users->getName() }}"
+                            class="profile-input w-full bg-white border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-black"
+                            readonly
+                            data-can-edit="true"
+                            id="nameInput"
+                    />
+                </div>
 
-        <!-- EMAIL -->
-        <div class="admin-card bg-white p-6">
-            <label class="block text-xs font-black uppercase text-gray-400 mb-2">Email</label>
-            <input
-                name="email"
-                value="{{ $data['student']->getEmail() }}"
-                class="w-full bg-gray-50 border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none"
-                readonly
-                data-always-locked="true"
-            />
-            <p class="text-[10px] text-gray-400 font-semibold italic mt-2">
-                Email is locked.
-            </p>
-        </div>
+                <!-- EMAIL -->
+                <div class="admin-card bg-white p-6">
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Email</label>
+                    <input
+                            name="email"
+                            value="{{ $users->getEmail() }}"
+                            class="w-full bg-gray-50 border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none"
+                            readonly
+                            data-always-locked="true"
+                    />
+                    <p class="text-[10px] text-gray-400 font-semibold italic mt-2">
+                        Email is locked.
+                    </p>
+                </div>
 
-        <!-- ROLE -->
-        <div class="admin-card bg-white p-6 md:col-span-2">
-            <label class="block text-xs font-black uppercase text-gray-400 mb-2">Role</label>
-            <select
-                name="role"
-                class="profile-input w-full bg-white border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-black"
-                disabled
-                data-can-edit="true"
-                id="roleSelect"
-            >
-                <option value="{{ $data['student']->getRole() }}" selected>
-                    {{ $data['student']->getRole() }}
-                </option>
-            </select>
-            <p class="text-[10px] text-gray-400 font-semibold italic mt-2">
-                Role is editable (when unlocked).
-            </p>
-        </div>
-    </div>
-</form>
+                <!-- ROLE -->
+                <div class="admin-card bg-white p-6 md:col-span-2">
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Role</label>
+                    <select
+                            name="role"
+                            class="profile-input w-full bg-white border-2 border-black rounded-2xl px-4 py-3 font-bold outline-none focus:ring-2 focus:ring-black"
+                            disabled
+                            data-can-edit="true"
+                            id="roleSelect"
+                    >
+                        <option value="{{ $users->getRole() }}" selected>
+                            {{ $users->getRole() }}
+                        </option>
+                    </select>
+                    <p class="text-[10px] text-gray-400 font-semibold italic mt-2">
+                        Role is editable (when unlocked).
+                    </p>
+                </div>
+            </div>
+        </form>
 
         <div class="mt-8 text-xs text-gray-500 font-semibold italic">
             Tip: Click <span class="font-black text-black">Edit</span>, change Name/Role, then click <span class="font-black text-black">Save</span>.
@@ -185,78 +188,55 @@
     const hintText = document.getElementById("hintText");
     const form = document.getElementById("profileForm");
 
-    // Select all editable fields
     const editableFields = Array.from(document.querySelectorAll('[data-can-edit="true"]'));
-
     let isEditing = false;
 
     function setEditing(state) {
         isEditing = state;
-
-        // Update aria-pressed for accessibility
         editBtn.setAttribute("aria-pressed", String(isEditing));
 
-        // Toggle readonly/disabled for editable fields
         editableFields.forEach((el) => {
             const tag = el.tagName.toLowerCase();
-            if (tag === "select") {
-                if (isEditing) el.removeAttribute("disabled");
-                else el.setAttribute("disabled", "disabled");
-            } else {
-                if (isEditing) el.removeAttribute("readonly");
-                else el.setAttribute("readonly", "readonly");
-            }
+            if (tag === "select") el.disabled = !isEditing;
+            else el.readOnly = !isEditing;
         });
 
         if (isEditing) {
-            // Switch button to Save
             editBtnLabel.textContent = "Save";
             hintText.textContent = "Make changes, then click Save.";
-
-            // Clicking button should now submit the form
-            editBtn.setAttribute("type", "submit");
-
-            // Focus the first editable input
-            setTimeout(() => {
-                document.getElementById("nameInput")?.focus();
-            }, 0);
+            setTimeout(() => document.getElementById("nameInput")?.focus(), 0);
         } else {
-            // Switch button back to Edit
             editBtnLabel.textContent = "Edit";
             hintText.textContent = "Click Edit to unlock fields.";
-            editBtn.setAttribute("type", "button");
         }
     }
 
-    // Handle Edit/Save button click
     editBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
         if (!isEditing) {
-            // Unlock fields without submitting
-            e.preventDefault();
             setEditing(true);
-        } 
-        // If editing, let form submit naturally (do not preventDefault)
+            return;
+        }
+
+        // Ensure select is enabled right now so it submits
+        editableFields.forEach((el) => {
+            if (el.tagName.toLowerCase() === "select") el.disabled = false;
+        });
+
+        if (form.requestSubmit) form.requestSubmit();
+        else form.submit();
     });
 
-    // Optional: lock fields immediately after submit for UX
-    form.addEventListener("submit", () => {
-        setEditing(false);
-    });
-
-    // Update header name in real-time while editing
+    // Live update header name while typing
     const nameInput = document.getElementById("nameInput");
     const studentTitle = document.getElementById("studentTitle");
-
     nameInput?.addEventListener("input", (e) => {
-        if (studentTitle) {
-            studentTitle.textContent = e.target.value || "—";
-        }
+        if (studentTitle) studentTitle.textContent = e.target.value || "—";
     });
 
-    // Start with fields locked
     setEditing(false);
 </script>
-
 
 </body>
 </html>
