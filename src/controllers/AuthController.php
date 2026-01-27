@@ -11,12 +11,11 @@ class AuthController extends Controller
     public function register()
     {
         // require __DIR__ . "/../views/auth/signup.blade.php";
-        $this->view('auth/signup.blade');
         // $instance = new Src\core\Controller;
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // var_dump($_POST);
-            $name     = $_POST['fullName'] ?? null;
-            $email    = $_POST['email'] ?? null;
+            $name = $_POST['fullName'] ?? null;
+            $email = $_POST['email'] ?? null;
             $password = $_POST['password'] ?? null;
             $role = "student";
 
@@ -27,7 +26,10 @@ class AuthController extends Controller
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
             (new UserRepository())->create($name, $email, $hashedPassword, $role);
+            $this->redirect('/login');
         }
+        $this->view('auth/signup.blade');
+
 
 
         // header('Location: /login');
